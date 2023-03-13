@@ -1,17 +1,26 @@
 [h1]The fngi programmer's manual[/]
+
 [h2]Document conventions[/]
+
 Words and phrases with special meaning are [i]italicisized[i] the first time they are used. Fngi code is always [c]monospaced[c].
+
 [h2]Introduction[/]
+
 Fngi is a stack-based language. The semantics of fngi are described in terms of stack manipulation. 
+
 [h2]Tokens[/]
+
 A [i]fngi program[i] is composed of [i]tokens[i]. A token is the smallest syntactic unit of a fngi program. Tokens are evaluated from left to right and from top to bottom. Whitespace is sometimes used to delineate between tokens, but has no semantic value.
+
 [h2]Value tokens[/]
 A [i]value token[i] is a kind of token. When a value token is evaluated, the number represented by the value token is pushed onto the [i]working stack[i]. The token [c]1[c] is a value token. When evaluated, it pushes the number 1 onto the working stack.
 [n]
 Furthermore, [c]1 2[c] is a fngi program. It consists of two value tokens: [c]1[c] and [c]2[c]. When this program is evaluated, the number 1 is pushed onto the working stack, then the number 2 is pushed onto the working stack. The tokens [c]1[c] and [c]2[c] could be separated by any whitespace to delineate between them.
 [n]
 Value tokens can also be written in hexadecimal. The token [c]0x10[c] is a value token. When [c]0x10[c] is evaluated, the number 16 is pushed onto the working stack.
+
 [h2]Function tokens[/]
+
 A [i]function token[i] is a kind of token. Function tokens in fngi are evaluated differently than functions in many other stack-based languages. Rather than being evaluated immediately, function token evaluation is defered until after the next token is evaluated.
 [n]
 The token [c]+[c] is a function token. When [c]+[c] is evaluated, two numbers are popped from the working stack, then their sum is pushed to the working stack. The program [c]1 + 2[c] performs the following operations in order:
@@ -43,7 +52,9 @@ When multiple functions are deferred successively, they are evaluated from last 
 4. Evaluate [c]*[c], leaving the number 8 on top of the working stack.
 5. Evaluate [c]+[c], leaving the number 9 on top of the working stack.
 [/]
-[h2]Syntactic tokens[/]
+
+[h2]Syn tokens[/]
+
 A [i]syntactic function token[i] or [i]syn token[i] is a kind of token. Syn tokens are powerul. They are similar to macros in other languages.
 [h2]TODO[/]
 This is a TODO list for this document.
