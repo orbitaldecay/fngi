@@ -1,65 +1,73 @@
-[h1]The fngi programmer's manual[/]
+[h1]The fngi manual[/]
 
 [h2]Document conventions[/]
 
-Words and phrases with special meaning are [i]italicisized[i] the first time they are used. Fngi code is always [c]monospaced[c].
+Words and phrases with special meaning are [i]italicisized[i] the first time they are used. Fngi code is always [c]monospaced[c]. [!]Words in developer comments are notes for authors and should e removed from the final version.[/]
 
 [h2]Introduction[/]
 
-Fngi is a stack-based language. The semantics of fngi are described in terms of stack manipulation. 
+The [i]fngi language[i] is a stack-based programming language. The semantics of the fngi language are described in terms of stack manipulation. When we say [i]fngi[i], we are refering to the fngi langage. The [i]fngi environment[i] is a REPL for the [i]fngi interpreter[i].
 
-[h2]Tokens[/]
+[h3]Tokens[/]
 
-A [i]fngi program[i] is composed of [i]tokens[i]. A token is the smallest syntactic unit of a fngi program. Tokens are evaluated from left to right and from top to bottom. Whitespace is sometimes used to delineate between tokens, but has no semantic value.
+A [i]fngi program[i] is a program written in the fngi language. Fngi programs are composed of [i]tokens[i]. A token is the smallest unit of a fngi program. tokens are typically [i]evaluated[i] from left to right and from top to bottom. After a token is evaluated, it is [i]executed[i].
 
-[h2]Value tokens[/]
-A [i]value token[i] is a kind of token. When a value token is evaluated, the number represented by the value token is pushed onto the [i]working stack[i]. The token [c]1[c] is a value token. When evaluated, it pushes the number 1 onto the working stack.
-[n]
-Furthermore, [c]1 2[c] is a fngi program. It consists of two value tokens: [c]1[c] and [c]2[c]. When this program is evaluated, the number 1 is pushed onto the working stack, then the number 2 is pushed onto the working stack. The tokens [c]1[c] and [c]2[c] could be separated by any whitespace to delineate between them.
-[n]
-Value tokens can also be written in hexadecimal. The token [c]0x10[c] is a value token. When [c]0x10[c] is evaluated, the number 16 is pushed onto the working stack.
+[!]I am writing this for the purposes of explaining how fngi programs are executed. From that perspective, we are interested in explaining the order of execution of tokens. Clearly, it's possible to compile fngi code to spor and never execute it, but I don't think that fact is partcularly useful to someone trying to understand the execution model of the language. Let me know if you think this is at all unclear.[/]
 
-[h2]Function tokens[/]
+Whitespace is sometimes used to delineate between tokens, but has no semantic value.
 
-A [i]function token[i] is a kind of token. Function tokens in fngi are evaluated differently than functions in many other stack-based languages. Rather than being evaluated immediately, function token evaluation is defered until after the next token is evaluated.
-[n]
-The token [c]+[c] is a function token. When [c]+[c] is evaluated, two numbers are popped from the working stack, then their sum is pushed to the working stack. The program [c]1 + 2[c] performs the following operations in order:
-[n]
+[h3]Value tokens[/]
+
+A [i]value token[i] is a kind of token. When a value token is executed, the number represented by the value token is pushed onto the [i]working stack[i]. The token [c]1[c] is a value token. When executed, it pushes the number 1 onto the working stack.
+
+Furthermore, [c]1 2[c] is a fngi program. It consists of two value tokens: [c]1[c] and [c]2[c]. When this program is executed, the number 1 is pushed onto the working stack, then the number 2 is pushed onto the working stack. The tokens [c]1[c] and [c]2[c] could be separated by any whitespace to delineate between them.
+
+Value tokens can also be written in hexadecimal. The token [c]0x10[c] is a token token. When [c]0x10[c] is executed, the number 16 is pushed onto the working stack.
+
+[h3]Function tokens[/]
+
+A [i]function token[i] is a kind of token. Function tokens in fngi are evaluated differently than functions in many other stack-based languages. Rather than being evaluated when they are encountered, function token evaluation is [i]deferred[i] until after the next token is evaluated.
+
+The token [c]+[c] is a function token. When [c]+[c] is executed, two numbers are popped from the working stack, then their sum is pushed to the working stack. The execution of the program [c]1 + 2[c] performs the following operations in order:
+
 [+]
 1. Push the number 1 onto the working stack.
-2. Push the number 2 onto the working stack (the evaluation of [c]+[c] is deferred).
-3. Finally, evaluate [c]+[c].
+2. Push the number 2 onto the working stack (the evaluation of [c]+[c] was deferred).
+3. Finally, execute [c]+[c].
 [/]
-[n]
+
 When this is performed, the number 3 is left on the working stack. Notice how this allows functions of arity 2 to be written in infix notation.
-[n]
-The token [c]*[c] is a function token. When [c]*[c] is evaluated, two numbers are popped from the working stack, then their product is pushed to the working stack. The program [c]1 + 2 * 4[c] performs the following operations in order:
-[n]
+
+The token [c]*[c] is a function token. When [c]*[c] is executed, two numbers are popped from the working stack, then their product is pushed to the working stack. The execution of the program [c]1 + 2 * 4[c] performs the following operations in order:
+
 [+]
 1. Push the number 1 onto the working stack.
-2. Push the number 2 onto the working stack ([c]+[c] is deferred).
-3. Evaluate [c]+[c] leaving the number 3 on the working stack.
-4. Push the number 4 onto the working stack ([c]*[c] is deferred).
-5. Evaluate [c]*[c] leaving the number 12 on the working stack.
+2. Push the number 2 onto the working stack (the evaluation of [c]+[c] was deferred).
+3. Execute [c]+[c] leaving the number 3 on the working stack.
+4. Push the number 4 onto the working stack (the evaluation of [c]*[c] was deferred).
+5. Execute [c]*[c] leaving the number 12 on the working stack.
 [/]
-[n]
-When multiple functions are deferred successively, they are evaluated from last deferred to first deferred. The program [c]1 2 + * 4[c] (a program which you would probably not want to write) performs the following operations in order:
-[n]
+
+When multiple functions tokens are deferred successively, they are evaluated in the opposite order in which they were deferred. The execution of the program [c]1 2 + * 4[c] (a program which you would probably not want to write) performs the following operations in order:
+
 [+]
 1. Push the number 1 onto the working stack.
 2. Push the number 2 onto the working stack.
-3. Push the number 4 onto the working stack ([c]+[c] is deferred, then [c]*[c] is deferred).
-4. Evaluate [c]*[c], leaving the number 8 on top of the working stack.
-5. Evaluate [c]+[c], leaving the number 9 on top of the working stack.
+3. Push the number 4 onto the working stack (the evaluation of [c]+[c] was deferred, then the evaluation of [c]*[c] was deferred).
+4. Execute [c]*[c], leaving the number 8 on top of the working stack.
+5. Execute [c]+[c], leaving the number 9 on top of the working stack.
 [/]
 
-[h2]Syn tokens[/]
+[h3]Syntactic function tokens[/]
 
-A [i]syntactic function token[i] or [i]syn token[i] is a kind of token. Syn tokens are powerul. They are similar to macros in other languages.
-[h2]TODO[/]
-This is a TODO list for this document.
-[n]
-[+]
-1. Explain [c]()[c], [c]+(1 2)[c] and [c]1 2 +()[c] in the syntactic tokens section.
-2. Correct grammar and spelling mistakes using automated checker.
-[/]
+[!]Note to vitiral: this will make more sense shortly :)[/]
+
+A [i]syntactic function token[i] is a kind of token.
+
+When any token is evaluated, it is, at some point, executed. Execution is either [i]immediate[i] or [i]delayed[i]. When execution is immediate, the token is executed before the next token is evaluated. When execution is delayed, the token is executed after all tokens in the program have been evaluated. After all tokens in the program have been evaluated, delayed tokens are executed in the order in which they were evaluated.
+
+[!]Be careful in the future to note that tokens within an fn definition are not "evaluated" in this sense at the time the fn is defined. That should clarify any misconceptions about the definition of delayed and immediate execution later in the document. tokens in an fn are not evaluated until the fn is executed. This is why execution is not delayed at the time of definition.[/]
+
+All of the examples of tokens and fngi programs that we have seen thus far have used delayed execution. Syntactic function tokens always use immediate execution.
+
+[!]Explain [c]()[c], [c]+(1 2)[c] and [c]1 2 +()[c] in this section. Correct grammar and spelling mistakes using automated checker.[/]
