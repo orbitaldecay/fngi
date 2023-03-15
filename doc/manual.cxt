@@ -1,4 +1,4 @@
-[h1]The fngi manual[/]
+[h1]The fngi programmer's manual[/]
 
 [h2]Document conventions[/]
 
@@ -10,7 +10,7 @@ The [i]fngi language[i] is a stack-based programming language. The semantics of 
 
 [h3]Tokens[/]
 
-A [i]fngi program[i] is a program written in the fngi language. Fngi programs are composed of [i]tokens[i]. A token is the smallest unit of a fngi program. tokens are typically [i]evaluated[i] from left to right and from top to bottom. After a token is evaluated, it is [i]executed[i].
+A [i]fngi program[i] is a program written in the fngi language. Fngi programs are composed of [i]tokens[i]. A token is the smallest unit of a fngi program. Tokens are typically [i]evaluated[i] from left to right and from top to bottom.
 
 [!]I am writing this for the purposes of explaining how fngi programs are executed. From that perspective, we are interested in explaining the order of execution of tokens. Clearly, it's possible to compile fngi code to spor and never execute it, but I don't think that fact is partcularly useful to someone trying to understand the execution model of the language. Let me know if you think this is at all unclear.[/]
 
@@ -58,16 +58,39 @@ When multiple functions tokens are deferred successively, they are evaluated in 
 5. Execute [c]+[c], leaving the number 9 on top of the working stack.
 [/]
 
-[h3]Syntactic function tokens[/]
+[h3]Immediate and delayed execution[/]
 
-[!]Note to vitiral: this will make more sense shortly :)[/]
+When a token is evaluated, that token is either executed or added to a [i]delay queue[i] for later execution. We call this [i]immediate[i] and [i]delayed[i] execution, respectively.
 
-A [i]syntactic function token[i] is a kind of token.
+When a token is executed immediately, execution occurs before the next token is evaluated.
 
-When any token is evaluated, it is, at some point, executed. Execution is either [i]immediate[i] or [i]delayed[i]. When execution is immediate, the token is executed before the next token is evaluated. When execution is delayed, the token is executed after all tokens in the program have been evaluated. After all tokens in the program have been evaluated, delayed tokens are executed in the order in which they were evaluated.
+When a token undergoes delayed execution, that token is added to a delay queue. To execute a delay queue is to execute the tokens in that delay queue in the order in which they were added. The [i]global delay queue[i] is the delay queue to which tokens are added by default. The global delay queue is executed after all tokens have been evaluated.
 
-[!]Be careful in the future to note that tokens within an fn definition are not "evaluated" in this sense at the time the fn is defined. That should clarify any misconceptions about the definition of delayed and immediate execution later in the document. tokens in an fn are not evaluated until the fn is executed. This is why execution is not delayed at the time of definition.[/]
+All of the examples of tokens and fngi programs that we have seen thus far have used delayed execution. Value tokens and function tokens use delayed execution. A deeper level of detail to our explanation of the behavior of the fngi program [c]1 2[c] would be:
 
-All of the examples of tokens and fngi programs that we have seen thus far have used delayed execution. Syntactic function tokens always use immediate execution.
+[+]
+1. The token [c]1[c] is evaluated. It undergoes delayed execution and is added to the global delay queue.
+2. The token [c]2[c] is evaluated. It undergoes delayed execution and is added to the global delay queue.
+3. Now that all tokens have been evaluated, we dequeue the token [c]1[c] from the global delay queue. The token [c]1[c] is executed, and the number 1 is pushed to the working stack.
+4. We dequeue the token [c]2[c] from the global delay queue. The token [c]2[c] is executed, and the number 2 is pushed to the working stack.
+[/]
+
+To execute a token immediately, the [c]imm#[c] token is prepended to that token. For example, when the program [c]2 imm#3 4[c] is run, the following operations occur in order:
+
+[+]
+1. The token [c]2[c] is evaluated. It undergoes delayed execution and is added to the global delay queue.
+2. The token [c]imm#[c] causes the token [c]3[c] to be executed immediately. Prior to evaluating the token [c]4[c], the number 3 is pushed to the working stack.
+3. The token [c]4[c] is evaluated. It undergoes delayed execution and is added to the global delay queue.
+4. The token [c]2[c] is dequeued from the global delay queue and executed. The number 2 is pushed to the working stack.
+5. The token [c]4[c] is dequeued from the global delay queue and executed. The number 4 is pushed to the working stack.
+[/]
+
+[h3]Syntactic tokens[/]
+
+A [i]syntactic token[i] is a kind of token. Unlike value tokens and function tokens, syntactic tokens are executed immediately by default. Syntactic tokens can be built-in or user defined. The general purpose of syntactic tokens is to implement syntactic constructs. We have already seen an example of one syntactic token: the [c]imm#[c] token. The [c]imm#[c] token triggers immediate execution of the token which follows it.
+
+The token [c]([c] is a syntactic token. When the token [c]([c] is executed, it evaluates all subsequent tokens until it encounters the token [c])[c]. In effect, this causes all sequences of tokens which are parenthesized to be treated as a single token in a number of contexts.
+
+For example, consider the program [c]5 imm#(1 + 2)[c]. The token [c]5[c] undergoes delayed execution. The token [c]imm#[c] causes the token [c]([c] to be executed immediately. The token [c]([c] evaluates [c]1 + 2[c] (stopping at [c])[c]) and triggers their immediate execution as well. The result is that the number 3 is pushed to the working stack, then the number 5 is pushed to the working stack.
 
 [!]Explain [c]()[c], [c]+(1 2)[c] and [c]1 2 +()[c] in this section. Correct grammar and spelling mistakes using automated checker.[/]
