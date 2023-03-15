@@ -19,17 +19,19 @@ The @FngiLanguage is an imperative, stack-based programming language. The purpos
 
 [+]
 1. A @FngiProgram is a @Sequence of @Tokens.
-2. To @Execute a @FngiProgram is to @Parse all @Tokens in the @FngiProgram in order.
-3. The @Meaning of a @FngiProgram is the effect of @Executing the @FngiProgram.
+2. The @Meaning of a @FngiProgram is the effect of @Executing the @FngiProgram.
+3. To @Execute a @FngiProgram is to @Parse all @Tokens in the @FngiProgram in order.
 [/]
 
 [h3]4. @TokensCap[/]
 
 [+]
-1. @TokensCap are @USUALLY @Evaluated when they are @Parsed.
-2. @TokensCap are @USUALLY @Executed either when they are @Evaluated, or after all @Tokens in the @FngiProgram have been @Evaluated.
-3. The @Meaning of a @Token is the effect of @Executing it.
-4. @WhiteSpaceCap is @SOMETIMES used to separate @Tokens.
+1. To @Parse a @Token is to determine when it should be @Evaluated.
+2. @TokensCap are @USUALLY @Evaluated when they are @Parsed.
+3. To @Evaluate a @Token is to determine when it should be @Executed.
+4. @TokensCap are @USUALLY @Executed either when they are @Evaluated, or after all @Tokens in the @FngiProgram have been @Evaluated.
+5. To @Execute a @Token is to do what the @Token @Means.
+6. @WhiteSpaceCap is @SOMETIMES used to separate @Tokens.
 
 [!]6. @TokensCap @NEVER contain @WhiteSpace.[/]
 [!]7. @WhiteSpaceCap @NEVER has @Meaning.[/]
