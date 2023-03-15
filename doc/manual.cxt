@@ -13,15 +13,19 @@
 
 [h2]Introduction[/]
 
-The @FngiLanguage is an imperative, stack-based programming language. This manual defines the @FngiLanguage.
+The @FngiLanguage is an imperative, stack-based programming language. This manual was written to explain what @FngiPrograms mean.
 
 [h3]@TokensCap[/]
 
-A @FngiProgram is a program written in the @FngiLanguage. @FngiProgramsCap are made of @Tokens. @TokensCap are @Parsed @Sequentially. @TokensCap are @USUALLY @Evaluated when they are @Parsed.
+A @FngiProgram is a @Sequence of @Tokens.
 
-[!]We are writing this manual to define how @FngiPrograms are @Executed. We want to define the order of @Execution of @Tokens.[/]
-
-@WhiteSpace is @SOMETIMES used to separate @Tokens, but @WhiteSpace has no meaning.
+[+]
+* @TokensCap are @Parsed in order.
+* @TokensCap are @USUALLY @Evaluated when they are @Parsed.
+* To @Execute means to do what the @FngiProgram or @Token means. 
+* @TokensCap are @USUALLY @Executed either when they are @Evaluated, or after all @Tokens in the @FngiProgram have been @Evaluated.
+* @WhiteSpaceCap is @SOMETIMES used to separate @Tokens.
+[/]
 
 [h3]@ValueTokensCap[/]
 
@@ -182,9 +186,11 @@ For example, consider the @FngiProgram @ProgramParenExample. The @Token @Program
 
 [!] misc [/]
 
+[t set=Sequence]		sequence			[/]
 [t set=Sequentially]		seqentially			[/]
 [t set=Subsequent]		subsequent			[/]
 [t set=WhiteSpace]		white space			[/]
+[t set=WhiteSpaceCap]		White space			[/]
 
 [!] example code ---------------------------------------------	[/]
 
