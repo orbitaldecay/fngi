@@ -2,7 +2,7 @@
 
 [h2]Document conventions[/]
 
-Text written in the @FngiLanguage is [c]monospaced[c]. Words in [b]bold[b] have special meaning:
+Text written in the @FngiLanguage is [c]monospaced[c]. Text in [i]italics[i] has special meaning:
 
 [+]
 * The word @ALWAYS means the sentence is always true; if the sentence is ever false then we have made a mistake.
@@ -110,10 +110,10 @@ For example, consider the @FngiProgram @ProgramParenExample. The @Token @Program
 [!] glossary -------------------------------------------------	[/]
 
 
-[t set=ALWAYS]			[b]always[b]			[/]
-[t set=USUALLY]			[b]usually[b]			[/]
-[t set=SOMETIMES]		[b]sometimes[b]			[/]
-[t set=NEVER]			[b]never[b]			[/]
+[t set=ALWAYS]			[i]always[i]			[/]
+[t set=USUALLY]			[i]usually[i]			[/]
+[t set=SOMETIMES]		[i]sometimes[i]			[/]
+[t set=NEVER]			[i]never[i]			[/]
 
 [!] fngi related [/]
 
