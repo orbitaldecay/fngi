@@ -2,27 +2,39 @@
 
 [h2]Document conventions[/]
 
-Text written in the @FngiLanguage is always [c]monospaced[c]. Text that concerns details that may not be relevant to a casual reader are [i]italicized[i]. [!]Words in developer comments are notes for authors.[/]
+Words in [b]bold[b] have special meaning:
+
+[+]
+* The word @ALWAYS means the statement is always true; if the statement is ever false then we have made a mistake.
+* The word @USUALLY means the statement is assumed to be true and we write when it is false.
+* The word @SOMETIMES means the statement is assumed to be false and we write when it is true.
+* The word @NEVER means the statement is never true. If the statement is ever true then we have made a mistake.
+[/]
+
+Text written in the @FngiLanguage is @ALWAYS [c]monospaced[c]. Details are [i]italicized[i]. [!]Text in developer comments is for authors.[/]
 
 [h2]Introduction[/]
 
-The @FngiLanguage is an imperative, stack-based programming language. The semantics of the @FngiLanguage are described in terms of stack manipulation. When we say @Fngi, we are refering to the @FngiLanguage. The @FngiEnvironment is a REPL for the @FngiInterpreter.
+The @FngiLanguage is an imperative, stack-based programming language.
 
 [h3]@TokensCap[/]
 
-A @FngiProgram is a program written in the @FngiLanguage. @FngiProgramsCap are composed of @Tokens. A @Token is the smallest unit of a @FngiProgram. @TokensCap are typically @Evaluated from left to right and from top to bottom.
+A @FngiProgram is a program written in the @FngiLanguage. @FngiProgramsCap are made of @Tokens. @TokensCap are @USUALLY @Evaluated sequentially.
 
 [!]I am writing this for the purposes of explaining how fngi programs are executed. From that perspective, we are interested in explaining the order of execution of tokens. Let me know if you think this is at all unclear.[/]
 
-Whitespace is sometimes used to delineate between @Tokens, but has no semantic value.
+White space is @SOMETIMES used to separate @Tokens, but white space has no meaning.
 
 [h3]@ValueTokensCap[/]
 
-A @ValueToken is a kind of @Token. When a @ValueToken is @Executed, the @Number represented by the @ValueToken is pushed onto the @WorkingStack. The @Token @ProgramOne is a @ValueToken. When @Executed, it pushes the @Number 1 onto the @WorkingStack.
+A @ValueToken is a kind of @Token. When a @ValueToken is @Executed, the @Number represented by the @ValueToken is pushed to the @WorkingStack. When two @ValueTokens occur sequentially, they are separated by white space.
 
-Furthermore, @ProgramOneTwo is a @FngiProgram. It consists of two @ValueTokens: @ProgramOne and @ProgramTwo. When this @FngiProgram is executed, the @Number 1 is pushed onto the @WorkingStack, then the @Number 2 is pushed onto the @WorkingStack. The @Tokens @ProgramOne and @ProgramTwo could be separated by any whitespace to delineate between them.
-
-@ValueTokensCap can also be written in hexadecimal. The @Token @ProgramHex is a @ValueToken. When the @Token @ProgramHex is @Executed, the @Number 16 is pushed onto the @WorkingStack.
+[+]
+* The @Token @ProgramOne is a @ValueToken. When this @Token is @Executed, the @Number 1 is pushed to the @WorkingStack.
+* The @FngiProgram @ProgramOneTwo is made of the @ValueToken @ProgramOne and the @ValueToken @ProgramTwo. These @ValueTokens are separated by white space. When this @FngiProgram is executed, the @Number 1 is pushed to the @WorkingStack, then the @Number 2 is pushed to the @WorkingStack. 
+* The @FngiProgram @ProgramTwelve is made of one @ValueToken. When this @FngiProgram is @Executed, the @Number 12 is pushed to the @WorkingStack.
+* The @Token @ProgramHex is a @ValueToken. When this @Token is @Executed, the @Number 16 is pushed to the @WorkingStack.
+[/]
 
 [h3]@FunctionTokensCap[/]
 
@@ -99,33 +111,40 @@ For example, consider the @FngiProgram @ProgramParenExample. The @Token @Program
 
 [!] glossary -------------------------------------------------	[/]
 
+
+[t set=ALWAYS]			[b]always[b]			[/]
+[t set=USUALLY]			[b]usually[b]			[/]
+[t set=SOMETIMES]		[b]sometimes[b]			[/]
+[t set=NEVER]			[b]never[b]			[/]
+
 [!] fngi related [/]
 
 [t set=Fngi]			fngi				[/]
 [t set=FngiLanguage]		fngi language			[/]
 [t set=FngiEnvironment]		fngi environment		[/]
 [t set=FngiInterpreter]		fngi interpreter		[/]
+
+[t set=FngiProgramsCap]		Fngi programs			[/]
 [t set=FngiProgram]		fngi program			[/]
 [t set=FngiPrograms]		fngi programs			[/]
-[t set=FngiProgramsCap]		Fngi programs			[/]
 
 [!] token names [/]
 
-[t set=Tokens]			tokens				[/]
-[t set=Token]			token				[/]
 [t set=TokensCap]		Tokens				[/]
+[t set=Token]			token				[/]
+[t set=Tokens]			tokens				[/]
 
 [t set=ValueTokensCap]		Value tokens			[/]
 [t set=ValueToken]		value token			[/]
 [t set=ValueTokens]		value tokens			[/]
 
-[t set=FunctionToken]		function token			[/]
 [t set=FunctionTokensCap]	Function tokens			[/]
+[t set=FunctionToken]		function token			[/]
 [t set=FunctionTokens]		function tokens			[/]
 
+[t set=SyntacticTokensCap]	Syntactic tokens		[/]
 [t set=SyntacticToken]		syntactic token			[/]
 [t set=SyntacticTokens]		syntactic tokens		[/]
-[t set=SyntacticTokensCap]	Syntactic tokens		[/]
 
 [!] evaluation and execution [/]
 
@@ -163,6 +182,7 @@ For example, consider the @FngiProgram @ProgramParenExample. The @Token @Program
 [t set=ProgramOne]		[c]1[c]				[/]
 [t set=ProgramTwo]		[c]2[c]				[/]
 [t set=ProgramOneTwo]		[c]1 2[c]			[/]
+[t set=ProgramTwelve]		[c]12[c]			[/]
 [t set=ProgramHex]		[c]0x10[c]			[/]
 [t set=ProgramAdd]		[c]+[c]				[/]
 [t set=ProgramOnePlusTwo]	[c]1 + 2[c]			[/]
