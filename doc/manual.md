@@ -3,37 +3,39 @@
 <h1>The fngi programmer&#x27;s manual</h1>
 <h2>Document conventions</h2>
 Words and phrases with special meaning are 
-<i>italicisized</i>
+<b>bolded</b>
  the first time they are used. Fngi code is always 
 <code>monospaced</code>
+. Text that concerns details of fngi language implementation that may not be relevant to a casual reader are 
+<i>italicized</i>
 . 
 
 </p><p>
 <h2>Introduction</h2>
 The 
-<i>fngi language</i>
+<b>fngi language</b>
  is a stack-based programming language. The semantics of the fngi language are described in terms of stack manipulation. When we say 
-<i>fngi</i>
+<b>fngi</b>
 , we are refering to the fngi langage. The 
-<i>fngi environment</i>
+<b>fngi environment</b>
  is a REPL for the 
-<i>fngi interpreter</i>
+<b>fngi interpreter</b>
 .</p><p>
 <h3>Tokens</h3>
 A 
-<i>fngi program</i>
+<b>fngi program</b>
  is a program written in the fngi language. Fngi programs are composed of 
-<i>tokens</i>
+<b>tokens</b>
 . A token is the smallest unit of a fngi program. Tokens are typically 
-<i>evaluated</i>
+<b>evaluated</b>
  from left to right and from top to bottom.</p><p>
 
 </p><p>Whitespace is sometimes used to delineate between tokens, but has no semantic value.</p><p>
 <h3>Value tokens</h3>
 A 
-<i>value token</i>
+<b>value token</b>
  is a kind of token. When a value token is executed, the number represented by the value token is pushed onto the 
-<i>working stack</i>
+<b>working stack</b>
 . The token 
 <code>1</code>
  is a value token. When executed, it pushes the number 1 onto the working stack.</p><p>Furthermore, 
@@ -53,9 +55,9 @@ A
  is executed, the number 16 is pushed onto the working stack.</p><p>
 <h3>Function tokens</h3>
 A 
-<i>function token</i>
+<b>function token</b>
  is a kind of token. Function tokens in fngi are evaluated differently than functions in many other stack-based languages. Rather than being evaluated when they are encountered, function token evaluation is 
-<i>deferred</i>
+<b>deferred</b>
  until after the next token is evaluated.</p><p>The token 
 <code>+</code>
  is a function token. When 
@@ -78,14 +80,18 @@ When multiple functions tokens are deferred successively, they are evaluated in 
 <ol><li value="1">Push the number 1 onto the working stack.</li><li value="2">Push the number 2 onto the working stack.</li><li value="3">Push the number 4 onto the working stack (the evaluation of <code>+</code> was deferred, then the evaluation of <code>*</code> was deferred).</li><li value="4">Execute <code>*</code>, leaving the number 8 on top of the working stack.</li><li value="5">Execute <code>+</code>, leaving the number 9 on top of the working stack.</li></ol>
 <h3>Immediate and delayed execution</h3>
 When a token is evaluated, that token is either executed or added to a 
-<i>delay queue</i>
+<b>delay queue</b>
  for later execution. We call this 
-<i>immediate</i>
+<b>immediate</b>
  and 
-<i>delayed</i>
+<b>delayed</b>
  execution, respectively.</p><p>When a token is executed immediately, execution occurs before the next token is evaluated.</p><p>When a token undergoes delayed execution, that token is added to a delay queue. To execute a delay queue is to execute the tokens in that delay queue in the order in which they were added. The 
-<i>global delay queue</i>
- is the delay queue to which tokens are added by default. The global delay queue is executed after all tokens have been evaluated.</p><p>All of the examples of tokens and fngi programs that we have seen thus far have used delayed execution. Value tokens and function tokens use delayed execution. A deeper level of detail to our explanation of the behavior of the fngi program 
+<b>global delay queue</b>
+ is the delay queue to which tokens are added by default. The global delay queue is executed after all tokens have been evaluated.</p><p>
+<i>In the standard implementation, the delay queue is a </i>
+<b><i>spor</b></i>
+<i> buffer. Spor is the internal bytecode of the fngi language. In other implementations, the delay queue could be a native code buffer, or even a literal queue of fngi tokens. This is all implementation specific. For the purposes of documentation, we&#x27;ve chosen to simply call it a delay queue.</i>
+</p><p>All of the examples of tokens and fngi programs that we have seen thus far have used delayed execution. Value tokens and function tokens use delayed execution. A deeper level of detail to our explanation of the behavior of the fngi program 
 <code>1 2</code>
  would be:</p><p>
 <ol><li value="1">The token <code>1</code> is evaluated. It undergoes delayed execution and is added to the global delay queue.</li><li value="2">The token <code>2</code> is evaluated. It undergoes delayed execution and is added to the global delay queue.</li><li value="3">Now that all tokens have been evaluated, we dequeue the token <code>1</code> from the global delay queue. The token <code>1</code> is executed, and the number 1 is pushed to the working stack.</li><li value="4">We dequeue the token <code>2</code> from the global delay queue. The token <code>2</code> is executed, and the number 2 is pushed to the working stack.</li></ol>
@@ -97,7 +103,7 @@ To execute a token immediately, the
 <ol><li value="1">The token <code>2</code> is evaluated. It undergoes delayed execution and is added to the global delay queue.</li><li value="2">The token <code>imm#</code> causes the token <code>3</code> to be executed immediately. Prior to evaluating the token <code>4</code>, the number 3 is pushed to the working stack.</li><li value="3">The token <code>4</code> is evaluated. It undergoes delayed execution and is added to the global delay queue.</li><li value="4">The token <code>2</code> is dequeued from the global delay queue and executed. The number 2 is pushed to the working stack.</li><li value="5">The token <code>4</code> is dequeued from the global delay queue and executed. The number 4 is pushed to the working stack.</li></ol>
 <h3>Syntactic tokens</h3>
 A 
-<i>syntactic token</i>
+<b>syntactic token</b>
  is a kind of token. Unlike value tokens and function tokens, syntactic tokens are executed immediately by default. Syntactic tokens can be built-in or user defined. The general purpose of syntactic tokens is to implement syntactic constructs. We have already seen an example of one syntactic token: the 
 <code>imm#</code>
  token. The 

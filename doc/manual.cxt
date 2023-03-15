@@ -2,23 +2,23 @@
 
 [h2]Document conventions[/]
 
-Words and phrases with special meaning are [i]italicisized[i] the first time they are used. Fngi code is always [c]monospaced[c]. [!]Words in developer comments are notes for authors and should e removed from the final version.[/]
+Words and phrases with special meaning are [b]bolded[b] the first time they are used. Fngi code is always [c]monospaced[c]. Text that concerns details of fngi language implementation that may not be relevant to a casual reader are [i]italicized[i]. [!]Words in developer comments are notes for authors.[/]
 
 [h2]Introduction[/]
 
-The [i]fngi language[i] is a stack-based programming language. The semantics of the fngi language are described in terms of stack manipulation. When we say [i]fngi[i], we are refering to the fngi langage. The [i]fngi environment[i] is a REPL for the [i]fngi interpreter[i].
+The [b]fngi language[b] is a stack-based programming language. The semantics of the fngi language are described in terms of stack manipulation. When we say [b]fngi[b], we are refering to the fngi langage. The [b]fngi environment[b] is a REPL for the [b]fngi interpreter[b].
 
 [h3]Tokens[/]
 
-A [i]fngi program[i] is a program written in the fngi language. Fngi programs are composed of [i]tokens[i]. A token is the smallest unit of a fngi program. Tokens are typically [i]evaluated[i] from left to right and from top to bottom.
+A [b]fngi program[b] is a program written in the fngi language. Fngi programs are composed of [b]tokens[b]. A token is the smallest unit of a fngi program. Tokens are typically [b]evaluated[b] from left to right and from top to bottom.
 
-[!]I am writing this for the purposes of explaining how fngi programs are executed. From that perspective, we are interested in explaining the order of execution of tokens. Clearly, it's possible to compile fngi code to spor and never execute it, but I don't think that fact is partcularly useful to someone trying to understand the execution model of the language. Let me know if you think this is at all unclear.[/]
+[!]I am writing this for the purposes of explaining how fngi programs are executed. From that perspective, we are interested in explaining the order of execution of tokens. Let me know if you think this is at all unclear.[/]
 
 Whitespace is sometimes used to delineate between tokens, but has no semantic value.
 
 [h3]Value tokens[/]
 
-A [i]value token[i] is a kind of token. When a value token is executed, the number represented by the value token is pushed onto the [i]working stack[i]. The token [c]1[c] is a value token. When executed, it pushes the number 1 onto the working stack.
+A [b]value token[b] is a kind of token. When a value token is executed, the number represented by the value token is pushed onto the [b]working stack[b]. The token [c]1[c] is a value token. When executed, it pushes the number 1 onto the working stack.
 
 Furthermore, [c]1 2[c] is a fngi program. It consists of two value tokens: [c]1[c] and [c]2[c]. When this program is executed, the number 1 is pushed onto the working stack, then the number 2 is pushed onto the working stack. The tokens [c]1[c] and [c]2[c] could be separated by any whitespace to delineate between them.
 
@@ -26,7 +26,7 @@ Value tokens can also be written in hexadecimal. The token [c]0x10[c] is a token
 
 [h3]Function tokens[/]
 
-A [i]function token[i] is a kind of token. Function tokens in fngi are evaluated differently than functions in many other stack-based languages. Rather than being evaluated when they are encountered, function token evaluation is [i]deferred[i] until after the next token is evaluated.
+A [b]function token[b] is a kind of token. Function tokens in fngi are evaluated differently than functions in many other stack-based languages. Rather than being evaluated when they are encountered, function token evaluation is [b]deferred[b] until after the next token is evaluated.
 
 The token [c]+[c] is a function token. When [c]+[c] is executed, two numbers are popped from the working stack, then their sum is pushed to the working stack. The execution of the program [c]1 + 2[c] performs the following operations in order:
 
@@ -60,11 +60,13 @@ When multiple functions tokens are deferred successively, they are evaluated in 
 
 [h3]Immediate and delayed execution[/]
 
-When a token is evaluated, that token is either executed or added to a [i]delay queue[i] for later execution. We call this [i]immediate[i] and [i]delayed[i] execution, respectively.
+When a token is evaluated, that token is either executed or added to a [b]delay queue[b] for later execution. We call this [b]immediate[b] and [b]delayed[b] execution, respectively.
 
 When a token is executed immediately, execution occurs before the next token is evaluated.
 
-When a token undergoes delayed execution, that token is added to a delay queue. To execute a delay queue is to execute the tokens in that delay queue in the order in which they were added. The [i]global delay queue[i] is the delay queue to which tokens are added by default. The global delay queue is executed after all tokens have been evaluated.
+When a token undergoes delayed execution, that token is added to a delay queue. To execute a delay queue is to execute the tokens in that delay queue in the order in which they were added. The [b]global delay queue[b] is the delay queue to which tokens are added by default. The global delay queue is executed after all tokens have been evaluated.
+
+[i]In the standard implementation, the delay queue is a [b]spor[b] buffer. Spor is the internal bytecode of the fngi language. In other implementations, the delay queue could be a native code buffer, or even a literal queue of fngi tokens. This is all implementation specific. For the purposes of documentation, we've chosen to simply call it a delay queue.[i]
 
 All of the examples of tokens and fngi programs that we have seen thus far have used delayed execution. Value tokens and function tokens use delayed execution. A deeper level of detail to our explanation of the behavior of the fngi program [c]1 2[c] would be:
 
@@ -87,7 +89,7 @@ To execute a token immediately, the [c]imm#[c] token is prepended to that token.
 
 [h3]Syntactic tokens[/]
 
-A [i]syntactic token[i] is a kind of token. Unlike value tokens and function tokens, syntactic tokens are executed immediately by default. Syntactic tokens can be built-in or user defined. The general purpose of syntactic tokens is to implement syntactic constructs. We have already seen an example of one syntactic token: the [c]imm#[c] token. The [c]imm#[c] token triggers immediate execution of the token which follows it.
+A [b]syntactic token[b] is a kind of token. Unlike value tokens and function tokens, syntactic tokens are executed immediately by default. Syntactic tokens can be built-in or user defined. The general purpose of syntactic tokens is to implement syntactic constructs. We have already seen an example of one syntactic token: the [c]imm#[c] token. The [c]imm#[c] token triggers immediate execution of the token which follows it.
 
 The token [c]([c] is a syntactic token. When the token [c]([c] is executed, it evaluates all subsequent tokens until it encounters the token [c])[c]. In effect, this causes all sequences of tokens which are parenthesized to be treated as a single token in a number of contexts.
 
