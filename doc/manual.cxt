@@ -48,9 +48,9 @@ The @FngiLanguage is an imperative, stack-based programming language. This manua
 
 [+]
 1. A @FunctionToken is a kind of @Token.
-2. @DeferedCap @Evaluation means to @Evaluated after the @Subsequent @Token is @Evaluated. 
+2. @DeferedCap @Evaluation means to @Evaluate after the next @Token in the @FngiProgram is @Evaluated. 
 3. @FunctionTokensCap are not @Evaluated when they are @Parsed.
-4. @FunctionTokensCap are use @Defered @Evaluation.
+4. @FunctionTokensCap @ALWAYS use @Defered @Evaluation.
 [/]
 
 [h3]7. @FunctionTokensCap examples[/]
@@ -165,6 +165,7 @@ For example, consider the @FngiProgram @ProgramParenExample. The @Token @Program
 
 [t set=Parsed]			parsed				[/]
 [t set=Parsing]			parsing				[/]
+[t set=Evaluate]		evaluate			[/]
 [t set=Evaluated]		evaluated			[/]
 [t set=Evaluating]		evaluating			[/]
 [t set=Evaluation]		evaluation			[/]
