@@ -3,61 +3,69 @@
 [h2]1. Document conventions[/]
 [+]
 1. Text written in the @FngiLanguage is [c]monospaced[c].
-2. The word @ALWAYS means the sentence is always true; if the sentence is ever false then we have made a mistake.
-3. The word @USUALLY means the sentence is assumed to be true. We will write when it is false.
-4. The word @SOMETIMES means the sentence is assumed to be false. We will write when it is true.
-5. The word @NEVER means the sentence is never true. If the sentence is ever true then we have made a mistake.
+2. The word @ALWAYS implies the sentence is always true; if the sentence is ever false then we have made a mistake.
+3. The word @USUALLY implies the sentence is assumed to be true. We will write when it is false.
+4. The word @SOMETIMES implies the sentence is assumed to be false. We will write when it is true.
+5. The word @NEVER implies sentence is never true. If the sentence is ever true then we have made a mistake.
 [/]
 
 [!]Text in developer comments is for authors.[/] 
 
 [h2]2. Introduction[/]
 
-The @FngiLanguage is an imperative, stack-based programming language. This manual was written to explain what @FngiPrograms mean.
+The @FngiLanguage is an imperative, stack-based programming language. The purpose of this manual is to explain the @Meaning of @FngiPrograms.
 
-[h3]3. @TokensCap[/]
+[h3]3. @FngiProgramsCap[/]
 
 [+]
 1. A @FngiProgram is a @Sequence of @Tokens.
-2. @TokensCap are @Parsed in order.
-3. @TokensCap are @USUALLY @Evaluated when they are @Parsed.
-4. To @Execute means to do what the @FngiProgram or @Token means. 
-5. @TokensCap are @USUALLY @Executed either when they are @Evaluated, or after all @Tokens in the @FngiProgram have been @Evaluated.
-6. @WhiteSpaceCap is @SOMETIMES used to separate @Tokens.
-7. @TokensCap @NEVER contain @WhiteSpace.
-8. @WhiteSpaceCap @NEVER has meaning.
+2. To @Execute a @FngiProgram is to @Parse all @Tokens in the @FngiProgram in order.
+3. The @Meaning of a @FngiProgram is the effect of @Executing the @FngiProgram.
 [/]
 
-[h3]4. @ValueTokensCap[/]
+[h3]4. @TokensCap[/]
+
+[+]
+1. @TokensCap are @USUALLY @Evaluated when they are @Parsed.
+2. @TokensCap are @USUALLY @Executed either when they are @Evaluated, or after all @Tokens in the @FngiProgram have been @Evaluated.
+3. The @Meaning of a @Token is the effect of @Executing it.
+4. @WhiteSpaceCap is @SOMETIMES used to separate @Tokens.
+
+[!]6. @TokensCap @NEVER contain @WhiteSpace.[/]
+[!]7. @WhiteSpaceCap @NEVER has @Meaning.[/]
+[/]
+
+[h3]5. @ValueTokensCap[/]
 
 [+]
 1. A @ValueToken is a kind of @Token.
 2. @ValueTokensCap represent @Numbers.
-3. A @ValueToken means @Push the @Number which is represented by the @ValueToken to the @WorkingStack.
-4. @ValueTokensCap must be separated by @WhiteSpace when they occur @Sequentially in a @FngiProgram. 
+3. The @Meaning of a @ValueToken is @Push the @Number which is represented by the @ValueToken to the @WorkingStack.
+4. @ValueTokensCap must be separated by @WhiteSpace when they occur @Sequentially in a @FngiProgram (4.4). 
+
 [/]
 
-[h3]5. @ValueTokenCap examples[/]
+[h3]6. @ValueTokenCap examples[/]
 
 [+]
-1. The @Token @ProgramOne is a @ValueToken. This @Token means @Push the @Number 1 to the @WorkingStack.
-2. The @Token @ProgramTwelve is a@ValueToken. This @Token means @Push the @Number 12 to the @WorkingStack.
-3. The @Token @ProgramHex is a @ValueToken. This @Token means @Push the @Number 16 to the @WorkingStack.
-4. The @FngiProgram @ProgramOneTwo is made of the @ValueTokens @ProgramOne and @ProgramTwo. These @ValueTokens are separated by @WhiteSpace. The @FngiProgram @ProgramOneTwo means @Push the @Number 1 to the @WorkingStack, then @Push the @Number 2 to the @WorkingStack. 
+1. The @Token @ProgramOne is a @ValueToken. It @Means @Push the @Number 1 to the @WorkingStack.
+2. The @Token @ProgramTwelve is a@ValueToken. It @Means @Push the @Number 12 to the @WorkingStack.
+3. The @Token @ProgramHex is a @ValueToken. It @Means means @Push the @Number 16 to the @WorkingStack.
+4. The @FngiProgram @ProgramOneTwo is made of the @ValueTokens @ProgramOne and @ProgramTwo. These @ValueTokens are separated by @WhiteSpace. The @FngiProgram @ProgramOneTwo @Means @Push the @Number 1 to the @WorkingStack, then @Push the @Number 2 to the @WorkingStack. 
 [/]
 
-[h3]6. @FunctionTokensCap[/]
+[h3]7. @FunctionTokensCap[/]
 
 [+]
 1. A @FunctionToken is a kind of @Token.
-2. @DeferedCap @Evaluation is to @Evaluate after the next @Token in the @FngiProgram is @Evaluated. 
-3. @FunctionTokensCap are @NEVER @Evaluated when they are @Parsed (3.3).
+2. @DeferedCap @Evaluation is to @Evaluate after the next @Token in the @FngiProgram has been @Evaluated. 
+3. @FunctionTokensCap are @NEVER @Evaluated when they are @Parsed (4.1).
 4. @FunctionTokensCap @ALWAYS use @Defered @Evaluation.
 [/]
 
-[h3]7. @FunctionTokenCap examples[/]
+[h3]8. @FunctionTokenCap examples[/]
 
-The @Token @ProgramAdd is a @FunctionToken. The @Token @ProgramAdd means @Pull two @Numbers from the @WorkingStack, then @Push their sum to the @WorkingStack. The @FngiProgram @ProgramOnePlusTwo means
+The @Token @ProgramAdd is a @FunctionToken. The @Token @ProgramAdd @Means @Pull two @Numbers from the @WorkingStack, then @Push their sum to the @WorkingStack. The @FngiProgram @ProgramOnePlusTwo @Means
 
 [+]
 1. @PushCap the @Number 1 to the @WorkingStack.
@@ -65,7 +73,7 @@ The @Token @ProgramAdd is a @FunctionToken. The @Token @ProgramAdd means @Pull t
 3. Execute @ProgramAdd. Now, the @Number 3 is on the @WorkingStack
 [/]
 
-The token @ProgramMul is a @FunctionToken. The @Token @ProgramMul means @Pull two @Numbers from the @WorkingStack, then @Push their sum to the @WorkingStack. The @FngiProgram @Program1Add2Mul4 means
+The token @ProgramMul is a @FunctionToken. The @Token @ProgramMul @Means @Pull two @Numbers from the @WorkingStack, then @Push their sum to the @WorkingStack. The @FngiProgram @Program1Add2Mul4 @Means
 
 [+]
 1. @PushCap the @Number 1 to the @WorkingStack.
@@ -75,7 +83,7 @@ The token @ProgramMul is a @FunctionToken. The @Token @ProgramMul means @Pull tw
 5. Execute @ProgramMul. Now, the @Number 12 on the @WorkingStack.
 [/]
 
-When @FunctionTokens are @Defered @Sequentially, they are @Evaluated in the order opposite to which they were @Defered. The @FngiProgram @ProgramOneTwoAddMulFour means
+When @FunctionTokens are @Defered @Sequentially, they are @Evaluated in the order opposite to which they were @Defered. The @FngiProgram @ProgramOneTwoAddMulFour @Means
 
 [+]
 1. @PushCap the @Number 1 to the @WorkingStack.
@@ -85,7 +93,7 @@ When @FunctionTokens are @Defered @Sequentially, they are @Evaluated in the orde
 5. Execute @ProgramAdd. Now, the @Number 9 is on the @WorkingStack.
 [/]
 
-[h3]8. @ImmediateCap and @Delayed @Execution[/]
+[h3]9. @ImmediateCap and @Delayed @Execution[/]
 
 When a @Token is @Evaluated, that @Token is either @Executed or added to a @DelayQueue for later @Execution. We call this @Immediate and @Delayed @Execution, respectively.
 
@@ -114,7 +122,7 @@ To @Execute a @Token @Immediately, the @ProgramImm @Token is prepended to that @
 5. The @Token @ProgramFour is dequeued from the @GlobalDelayQueue and @Executed. The @Number 4 is pushed to the @WorkingStack.
 [/]
 
-[h3]9. @SyntacticTokensCap[/]
+[h3]10. @SyntacticTokensCap[/]
 
 A @SyntacticToken is a kind of @Token. @SyntacticTokensCap are @ALWAYS @Executed @Immediately. @SyntacticTokensCap can be built-in or user defined. The general purpose of @SyntacticTokens is to implement syntactic constructs. We have already seen an example of one @SyntacticToken: the @ProgramImm @Token. The @ProgramImm @Token triggers @Immediate @Execution of the @Token which follows it.
 
@@ -165,16 +173,20 @@ For example, consider the @FngiProgram @ProgramParenExample. The @Token @Program
 
 [!] evaluation and execution, and parsed [/]
 
+[t set=Parse]			parse				[/]
 [t set=Parsed]			parsed				[/]
 [t set=Parsing]			parsing				[/]
+
 [t set=Evaluate]		evaluate			[/]
 [t set=Evaluated]		evaluated			[/]
 [t set=Evaluating]		evaluating			[/]
 [t set=Evaluation]		evaluation			[/]
 [t set=Evaluates]		evaluates			[/]
+
 [t set=Execute]			execute				[/]
 [t set=Executed]		executed			[/]
 [t set=Execution]		execution			[/]
+[t set=Executing]		executing			[/]
 
 [!] defered, delayed, immediate [/]
 
@@ -208,6 +220,8 @@ For example, consider the @FngiProgram @ProgramParenExample. The @Token @Program
 [t set=Subsequent]		subsequent			[/]
 [t set=WhiteSpace]		white space			[/]
 [t set=WhiteSpaceCap]		White space			[/]
+[t set=Means]			means				[/]
+[t set=Meaning]			meaning				[/]
 
 [!] example code ---------------------------------------------	[/]
 
