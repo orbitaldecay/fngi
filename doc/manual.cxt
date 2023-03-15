@@ -2,97 +2,179 @@
 
 [h2]Document conventions[/]
 
-Words and phrases with special meaning are [b]bolded[b] the first time they are used. Fngi code is always [c]monospaced[c]. Text that concerns details of fngi language implementation that may not be relevant to a casual reader are [i]italicized[i]. [!]Words in developer comments are notes for authors.[/]
+Text written in the @FngiLanguage is always [c]monospaced[c]. Text that concerns details that may not be relevant to a casual reader are [i]italicized[i]. [!]Words in developer comments are notes for authors.[/]
 
 [h2]Introduction[/]
 
-The [b]fngi language[b] is a stack-based programming language. The semantics of the fngi language are described in terms of stack manipulation. When we say [b]fngi[b], we are refering to the fngi langage. The [b]fngi environment[b] is a REPL for the [b]fngi interpreter[b].
+The @FngiLanguage is an imperative, stack-based programming language. The semantics of the @FngiLanguage are described in terms of stack manipulation. When we say @Fngi, we are refering to the @FngiLanguage. The @FngiEnvironment is a REPL for the @FngiInterpreter.
 
-[h3]Tokens[/]
+[h3]@TokensCap[/]
 
-A [b]fngi program[b] is a program written in the fngi language. Fngi programs are composed of [b]tokens[b]. A token is the smallest unit of a fngi program. Tokens are typically [b]evaluated[b] from left to right and from top to bottom.
+A @FngiProgram is a program written in the @FngiLanguage. @FngiProgramsCap are composed of @Tokens. A @Token is the smallest unit of a @FngiProgram. @TokensCap are typically @Evaluated from left to right and from top to bottom.
 
 [!]I am writing this for the purposes of explaining how fngi programs are executed. From that perspective, we are interested in explaining the order of execution of tokens. Let me know if you think this is at all unclear.[/]
 
-Whitespace is sometimes used to delineate between tokens, but has no semantic value.
+Whitespace is sometimes used to delineate between @Tokens, but has no semantic value.
 
-[h3]Value tokens[/]
+[h3]@ValueTokensCap[/]
 
-A [b]value token[b] is a kind of token. When a value token is executed, the number represented by the value token is pushed onto the [b]working stack[b]. The token [c]1[c] is a value token. When executed, it pushes the number 1 onto the working stack.
+A @ValueToken is a kind of @Token. When a @ValueToken is @Executed, the @Number represented by the @ValueToken is pushed onto the @WorkingStack. The @Token @ProgramOne is a @ValueToken. When @Executed, it pushes the @Number 1 onto the @WorkingStack.
 
-Furthermore, [c]1 2[c] is a fngi program. It consists of two value tokens: [c]1[c] and [c]2[c]. When this program is executed, the number 1 is pushed onto the working stack, then the number 2 is pushed onto the working stack. The tokens [c]1[c] and [c]2[c] could be separated by any whitespace to delineate between them.
+Furthermore, @ProgramOneTwo is a @FngiProgram. It consists of two @ValueTokens: @ProgramOne and @ProgramTwo. When this @FngiProgram is executed, the @Number 1 is pushed onto the @WorkingStack, then the @Number 2 is pushed onto the @WorkingStack. The @Tokens @ProgramOne and @ProgramTwo could be separated by any whitespace to delineate between them.
 
-Value tokens can also be written in hexadecimal. The token [c]0x10[c] is a token token. When [c]0x10[c] is executed, the number 16 is pushed onto the working stack.
+@ValueTokensCap can also be written in hexadecimal. The @Token @ProgramHex is a @ValueToken. When the @Token @ProgramHex is @Executed, the @Number 16 is pushed onto the @WorkingStack.
 
-[h3]Function tokens[/]
+[h3]@FunctionTokensCap[/]
 
-A [b]function token[b] is a kind of token. Function tokens in fngi are evaluated differently than functions in many other stack-based languages. Rather than being evaluated when they are encountered, function token evaluation is [b]deferred[b] until after the next token is evaluated.
+A @FunctionToken is a kind of @Token. @FunctionTokensCap in @Fngi are @Evaluated differently than functions in many other stack-based languages. Rather than being @Evaluated when they are encountered, @FunctionToken @Evaluation is @Defered until after the next @Token is @Evaluated.
 
-The token [c]+[c] is a function token. When [c]+[c] is executed, two numbers are popped from the working stack, then their sum is pushed to the working stack. The execution of the program [c]1 + 2[c] performs the following operations in order:
-
-[+]
-1. Push the number 1 onto the working stack.
-2. Push the number 2 onto the working stack (the evaluation of [c]+[c] was deferred).
-3. Finally, execute [c]+[c].
-[/]
-
-When this is performed, the number 3 is left on the working stack. Notice how this allows functions of arity 2 to be written in infix notation.
-
-The token [c]*[c] is a function token. When [c]*[c] is executed, two numbers are popped from the working stack, then their product is pushed to the working stack. The execution of the program [c]1 + 2 * 4[c] performs the following operations in order:
+The @Token @ProgramAdd is a @FunctionToken. When @ProgramAdd is @Executed, two @Numbers are popped from the @WorkingStack, then their sum is pushed to the @WorkingStack. The @Execution of the @FngiProgram @ProgramOnePlusTwo performs the following operations in order:
 
 [+]
-1. Push the number 1 onto the working stack.
-2. Push the number 2 onto the working stack (the evaluation of [c]+[c] was deferred).
-3. Execute [c]+[c] leaving the number 3 on the working stack.
-4. Push the number 4 onto the working stack (the evaluation of [c]*[c] was deferred).
-5. Execute [c]*[c] leaving the number 12 on the working stack.
+1. Push the @Number 1 onto the @WorkingStack.
+2. Push the @Number 2 onto the @WorkingStack (the @Evaluation of @ProgramAdd was @Defered).
+3. Finally, execute @ProgramAdd.
 [/]
 
-When multiple functions tokens are deferred successively, they are evaluated in the opposite order in which they were deferred. The execution of the program [c]1 2 + * 4[c] (a program which you would probably not want to write) performs the following operations in order:
+When this is performed, the @Number 3 is left on the @WorkingStack. Notice how this allows @FunctionTokens of arity 2 to be written in infix notation.
+
+The token @ProgramMul is a @FunctionToken. When @ProgramMul is @Executed, two @Numbers are popped from the @WorkingStack, then their product is pushed to the @WorkingStack. The @Execution of the @FngiProgram @Program1Add4Mul2 performs the following operations in order:
 
 [+]
-1. Push the number 1 onto the working stack.
-2. Push the number 2 onto the working stack.
-3. Push the number 4 onto the working stack (the evaluation of [c]+[c] was deferred, then the evaluation of [c]*[c] was deferred).
-4. Execute [c]*[c], leaving the number 8 on top of the working stack.
-5. Execute [c]+[c], leaving the number 9 on top of the working stack.
+1. Push the @Number 1 onto the @WorkingStack.
+2. Push the @Number 2 onto the @WorkingStack (the @Evaluation of @ProgramAdd was @Defered).
+3. Execute @ProgramAdd leaving the @Number 3 on the @WorkingStack.
+4. Push the @Number 4 onto the @WorkingStack (the @Evaluation of @ProgramMul was @Defered).
+5. Execute @ProgramMul leaving the @Number 12 on the @WorkingStack.
 [/]
 
-[h3]Immediate and delayed execution[/]
-
-When a token is evaluated, that token is either executed or added to a [b]delay queue[b] for later execution. We call this [b]immediate[b] and [b]delayed[b] execution, respectively.
-
-When a token is executed immediately, execution occurs before the next token is evaluated.
-
-When a token undergoes delayed execution, that token is added to a delay queue. To execute a delay queue is to execute the tokens in that delay queue in the order in which they were added. The [b]global delay queue[b] is the delay queue to which tokens are added by default. The global delay queue is executed after all tokens have been evaluated.
-
-[i]In the standard implementation, the delay queue is a [b]spor[b] buffer. Spor is the internal bytecode of the fngi language. In other implementations, the delay queue could be a native code buffer, or even a literal queue of fngi tokens. This is all implementation specific. For the purposes of documentation, we've chosen to simply call it a delay queue.[i]
-
-All of the examples of tokens and fngi programs that we have seen thus far have used delayed execution. Value tokens and function tokens use delayed execution. A deeper level of detail to our explanation of the behavior of the fngi program [c]1 2[c] would be:
+When multiple @FunctionTokens are @Defered successively, they are @Evaluated in the opposite order in which they were @Defered. The @Execution of the @FngiProgram @ProgramOneTwoAddMulFour (a very ugly, but valid @FngiProgram) performs the following operations in order:
 
 [+]
-1. The token [c]1[c] is evaluated. It undergoes delayed execution and is added to the global delay queue.
-2. The token [c]2[c] is evaluated. It undergoes delayed execution and is added to the global delay queue.
-3. Now that all tokens have been evaluated, we dequeue the token [c]1[c] from the global delay queue. The token [c]1[c] is executed, and the number 1 is pushed to the working stack.
-4. We dequeue the token [c]2[c] from the global delay queue. The token [c]2[c] is executed, and the number 2 is pushed to the working stack.
+1. Push the @Number 1 onto the @WorkingStack.
+2. Push the @Number 2 onto the @WorkingStack.
+3. Push the @Number 4 onto the @WorkingStack (the @Evaluation of @ProgramAdd was @Defered, then the @Evaluation of @ProgramMul was @Defered).
+4. Execute @ProgramMul, leaving the @Number 8 on top of the @WorkingStack.
+5. Execute @ProgramAdd, leaving the @Number 9 on top of the @WorkingStack.
 [/]
 
-To execute a token immediately, the [c]imm#[c] token is prepended to that token. For example, when the program [c]2 imm#3 4[c] is run, the following operations occur in order:
+[h3]@ImmediateCap and @Delayed @Execution[/]
+
+When a @Token is @Evaluated, that @Token is either @Executed or added to a @DelayQueue for later @Execution. We call this @Immediate and @Delayed @Execution, respectively.
+
+When a @Token is @Executed @Immediate, @Execution occurs before the next @Token is @Evaluated.
+
+When a @Token undergoes @Delayed @Execution, that @Token is added to a @DelayQueue. To @Execute a @DelayQueue is to @Execute the @Tokens in that @DelayQueue in the order in which they were added. The @GlobalDelayQueue is the @DelayQueue to which @Tokens are added by default. The @GlobalDelayQueue is @Executed after all @Tokens have been @Evaluated.
+
+[i]In the standard implementation, the @DelayQueue is a @Spor buffer. @SporCap is the internal bytecode of the @FngiLanguage. In other implementations, the @DelayQueue could be a native code buffer, or even a literal queue of @Fngi tokens. This is all implementation specific. For the purposes of documentation, we've chosen to simply call it a @DelayQueue.[i]
+
+All of the examples of @Tokens and @FngiPrograms that we have seen thus far have used @Delayed @Execution. @ValueTokensCap and @FunctionTokens use @Delayed @Execution. A deeper level of detail to our explanation of the behavior of the @FngiProgram @ProgramOneTwo would be:
 
 [+]
-1. The token [c]2[c] is evaluated. It undergoes delayed execution and is added to the global delay queue.
-2. The token [c]imm#[c] causes the token [c]3[c] to be executed immediately. Prior to evaluating the token [c]4[c], the number 3 is pushed to the working stack.
-3. The token [c]4[c] is evaluated. It undergoes delayed execution and is added to the global delay queue.
-4. The token [c]2[c] is dequeued from the global delay queue and executed. The number 2 is pushed to the working stack.
-5. The token [c]4[c] is dequeued from the global delay queue and executed. The number 4 is pushed to the working stack.
+1. The @Token @ProgramOne is @Evaluated. It undergoes @Delayed @Execution and is added to the @GlobalDelayQueue.
+2. The @Token @ProgramTwo is @Evaluated. It undergoes @Delayed @Execution and is added to the @GlobalDelayQueue.
+3. Now that all @Tokens have been @Evaluated, we dequeue the @Token @ProgramOne from the @GlobalDelayQueue. The @Token @ProgramOne is @Executed, and the @Number 1 is pushed to the @WorkingStack.
+4. We dequeue the @Token @ProgramTwo from the @GlobalDelayQueue. The token @ProgramTwo is @Executed, and the @Number 2 is pushed to the @WorkingStack.
 [/]
 
-[h3]Syntactic tokens[/]
+To @Execute a @Token @Immediately, the @ProgramImm @Token is prepended to that @Token. For example, when the @FngiProgram @ProgramTwoImmThreeFour is @Executed, the following operations occur in order:
 
-A [b]syntactic token[b] is a kind of token. Unlike value tokens and function tokens, syntactic tokens are executed immediately by default. Syntactic tokens can be built-in or user defined. The general purpose of syntactic tokens is to implement syntactic constructs. We have already seen an example of one syntactic token: the [c]imm#[c] token. The [c]imm#[c] token triggers immediate execution of the token which follows it.
+[+]
+1. The @Token @ProgramTwo is @Evaluated. It undergoes @Delayed @Execution and is added to the @GlobalDelayQueue.
+2. The @Token @ProgramImm causes the @Token @ProgramThree to be @Executed @Immediately. Prior to @Evaluating the @Token @ProgramFour, the @Number 3 is pushed to the @WorkingStack.
+3. The @Token @ProgramFour is @Evaluated. It undergoes @Delayed @Execution and is added to the @GlobalDelayQueue.
+4. The @Token @ProgramTwo is dequeued from the @GlobalDelayQueue and @Executed. The @Number 2 is pushed to the @WorkingStack.
+5. The @Token @ProgramFour is dequeued from the @GlobalDelayQueue and @Executed. The @Number 4 is pushed to the @WorkingStack.
+[/]
 
-The token [c]([c] is a syntactic token. When the token [c]([c] is executed, it evaluates all subsequent tokens until it encounters the token [c])[c]. In effect, this causes all sequences of tokens which are parenthesized to be treated as a single token in a number of contexts.
+[h3]@SyntacticTokensCap[/]
 
-For example, consider the program [c]5 imm#(1 + 2)[c]. The token [c]5[c] undergoes delayed execution. The token [c]imm#[c] causes the token [c]([c] to be executed immediately. The token [c]([c] evaluates [c]1 + 2[c] (stopping at [c])[c]) and triggers their immediate execution as well. The result is that the number 3 is pushed to the working stack, then the number 5 is pushed to the working stack.
+A @SyntacticToken is a kind of @Token. Unlike @ValueTokens and @FunctionTokens, @SyntacticTokens are @Executed @Immediately by default. @SyntacticTokensCap can be built-in or user defined. The general purpose of @SyntacticTokens is to implement syntactic constructs. We have already seen an example of one @SyntacticToken: the @ProgramImm @Token. The @ProgramImm @Token triggers @Immediate @Execution of the @Token which follows it.
+
+The @Token @ProgramLeftParen is a @SyntacticToken. When the @Token @ProgramLeftParen is @Executed, it @Evaluates all subsequent @Tokens until it encounters the @Token @ProgramRightParen. In effect, this causes all sequences of @Tokens which are parenthesized to be treated as a single @Token in a number of contexts.
+
+For example, consider the @FngiProgram @ProgramParenExample. The @Token @ProgramFive undergoes @Delayed @Execution. The @Token @ProgramImm causes the token @ProgramLeftParen to be @Executed @Immediately. The @Token @ProgramLeftParen @Evaluates @ProgramOnePlusTwo (stopping at @ProgramRightParen) and triggers their @Immediate @Execution as well. The result is that the @Number 3 is pushed to the @WorkingStack, then the @Number 5 is pushed to the @WorkingStack.
 
 [!]Explain [c]()[c], [c]+(1 2)[c] and [c]1 2 +()[c] in this section. Correct grammar and spelling mistakes using automated checker.[/]
+
+[!] glossary -------------------------------------------------	[/]
+
+[!] fngi related [/]
+
+[t set=Fngi]			fngi				[/]
+[t set=FngiLanguage]		fngi language			[/]
+[t set=FngiEnvironment]		fngi environment		[/]
+[t set=FngiInterpreter]		fngi interpreter		[/]
+[t set=FngiProgram]		fngi program			[/]
+[t set=FngiPrograms]		fngi programs			[/]
+[t set=FngiProgramsCap]		Fngi programs			[/]
+
+[!] token names [/]
+
+[t set=Tokens]			tokens				[/]
+[t set=Token]			token				[/]
+[t set=TokensCap]		Tokens				[/]
+
+[t set=ValueTokensCap]		Value tokens			[/]
+[t set=ValueToken]		value token			[/]
+[t set=ValueTokens]		value tokens			[/]
+
+[t set=FunctionToken]		function token			[/]
+[t set=FunctionTokensCap]	Function tokens			[/]
+[t set=FunctionTokens]		function tokens			[/]
+
+[t set=SyntacticToken]		syntactic token			[/]
+[t set=SyntacticTokens]		syntactic tokens		[/]
+[t set=SyntacticTokensCap]	Syntactic tokens		[/]
+
+[!] evaluation and execution [/]
+
+[t set=Evaluated]		evaluated			[/]
+[t set=Evaluating]		evaluating			[/]
+[t set=Evaluation]		evaluation			[/]
+[t set=Evaluates]		evaluates			[/]
+[t set=Execute]			execute				[/]
+[t set=Executed]		executed			[/]
+[t set=Execution]		execution			[/]
+
+[!] defered, delayed, immediate [/]
+
+[t set=Defered]			defered				[/]
+[t set=Delayed]			delayed				[/]
+[t set=ImmediateCap]		Immediate			[/]
+[t set=Immediate]		immediate			[/]
+[t set=Immediately]		immediately			[/]
+
+[!] data structures and data types [/]
+
+[t set=WorkingStack]		working stack			[/]
+[t set=Number]			number				[/]
+[t set=Numbers]			numbers				[/]
+[t set=DelayQueue]		delay queue			[/]
+[t set=GlobalDelayQueue]	global delay queue		[/]
+
+[!] spor [/]
+
+[t set=Spor]			spor				[/]
+[t set=SporCap]			Spor				[/]
+
+[!] example code ---------------------------------------------	[/]
+
+[t set=ProgramOne]		[c]1[c]				[/]
+[t set=ProgramTwo]		[c]2[c]				[/]
+[t set=ProgramOneTwo]		[c]1 2[c]			[/]
+[t set=ProgramHex]		[c]0x10[c]			[/]
+[t set=ProgramAdd]		[c]+[c]				[/]
+[t set=ProgramOnePlusTwo]	[c]1 + 2[c]			[/]
+[t set=ProgramMul]		[c]*[c]				[/]
+[t set=Program1Add4Mul2]	[c]1 + 4 * 2[c]			[/]
+[t set=ProgramOneTwoAddMulFour]	[c]1 2 + * 4[c]			[/]
+[t set=ProgramImm]		[c]imm#[c]			[/]
+[t set=ProgramTwoImmThreeFour]	[c]2 imm#3 4[c]			[/]
+[t set=ProgramImmThree]		[c]imm#3[c]			[/]
+[t set=ProgramThree]		[c]3[c]				[/]
+[t set=ProgramFour]		[c]4[c]				[/]
+[t set=ProgramFive]		[c]5[c]				[/]
+[t set=ProgramParenExample]	[c]5 imm#(1 + 2)[c]		[/]
+[t set=ProgramLeftParen]	[c]([c]				[/]
+[t set=ProgramRightParen]	[c])[c]				[/]
