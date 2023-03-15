@@ -2,14 +2,16 @@
 
 [h2]Document conventions[/]
 
-Text written in the @FngiLanguage is [c]monospaced[c]. Details are [i]italicized[i]. [!]Text in developer comments is for authors.[/] Words in [b]bold[b] have special meaning:
+Text written in the @FngiLanguage is [c]monospaced[c]. Words in [b]bold[b] have special meaning:
 
 [+]
-* The word @ALWAYS means the statement is always true; if the statement is ever false then we have made a mistake.
-* The word @USUALLY means the statement is assumed to be true and we write when it is false.
-* The word @SOMETIMES means the statement is assumed to be false and we write when it is true.
-* The word @NEVER means the statement is never true. If the statement is ever true then we have made a mistake.
+* The word @ALWAYS means the sentence is always true; if the sentence is ever false then we have made a mistake.
+* The word @USUALLY means the sentence is assumed to be true. We will write when it is false.
+* The word @SOMETIMES means the sentence is assumed to be false. We will write when it is true.
+* The word @NEVER means the sentence is never true. If the sentence is ever true then we have made a mistake.
 [/]
+
+[!]Text in developer comments is for authors.[/] 
 
 [h2]Introduction[/]
 
@@ -56,7 +58,7 @@ The token @ProgramMul is a @FunctionToken. When @ProgramMul is @Executed, two @N
 5. Execute @ProgramMul and leave the @Number 12 on the @WorkingStack.
 [/]
 
-When multiple @FunctionTokens are @Defered in sequence, they are @Evaluated in the opposite order in which they were @Defered. The @Execution of the @FngiProgram @ProgramOneTwoAddMulFour (a very ugly, but valid @FngiProgram) performs the following operations in order:
+When multiple @FunctionTokens are @Defered sequentially, they are @Evaluated in the opposite order in which they were @Defered. The @Execution of the @FngiProgram @ProgramOneTwoAddMulFour (a very ugly, but valid @FngiProgram) performs the following operations in order:
 
 [+]
 1. Push the @Number 1 on the @WorkingStack.
@@ -74,9 +76,9 @@ When a @Token is @Executed @Immediately, @Execution occurs before the next @Toke
 
 When a @Token undergoes @Delayed @Execution, that @Token is added to a @DelayQueue. To @Execute a @DelayQueue is to @Execute the @Tokens in that @DelayQueue in the order in which they were added. The @GlobalDelayQueue is the @DelayQueue to which @Tokens are @USUALLY added. The @GlobalDelayQueue is @Executed after all @Tokens have been @Evaluated.
 
-[i]In the standard implementation, the @DelayQueue is a @Spor buffer. @SporCap is the internal bytecode of the @FngiLanguage. In other implementations, the @DelayQueue could be a native code buffer, or even a literal queue of @Fngi tokens. This is all implementation specific. For the purposes of documentation, we've chosen to simply call it a @DelayQueue.[i]
+[!]In the standard implementation, the @DelayQueue is a @Spor buffer. @SporCap is the internal bytecode of the @FngiLanguage. In other implementations, the @DelayQueue could be a native code buffer, or even a literal queue of @Fngi tokens. This is all implementation specific. For the purposes of documentation, we've chosen to simply call it a @DelayQueue.[/]
 
-All of the examples of @Tokens and @FngiPrograms that we have seen thus far have used @Delayed @Execution. @ValueTokensCap and @FunctionTokens @USUALLY use @Delayed @Execution. A deeper level of detail to our explanation of the behavior of the @FngiProgram @ProgramOneTwo would be:
+When @Tokens are @Evaluated, @Execution is @USUALLY delayed. A deeper level of detail to our explanation of the behavior of the @FngiProgram @ProgramOneTwo would be:
 
 [+]
 1. The @Token @ProgramOne is @Evaluated. It undergoes @Delayed @Execution and is added to the @GlobalDelayQueue.
@@ -85,7 +87,7 @@ All of the examples of @Tokens and @FngiPrograms that we have seen thus far have
 4. We dequeue the @Token @ProgramTwo from the @GlobalDelayQueue. The token @ProgramTwo is @Executed, and the @Number 2 is pushed to the @WorkingStack.
 [/]
 
-To @Execute a @Token @Immediately, the @ProgramImm @Token is prepended to that @Token. For example, when the @FngiProgram @ProgramTwoImmThreeFour is @Executed, the following operations occur in order:
+To @Execute a @Token @Immediately, the @ProgramImm @Token is prepended to that @Token. The @ProgramImm @Token is @ALWAYS @Executed @Immediately. For example, when the @FngiProgram @ProgramTwoImmThreeFour is @Executed, the following operations occur in order:
 
 [+]
 1. The @Token @ProgramTwo is @Evaluated. It undergoes @Delayed @Execution and is added to the @GlobalDelayQueue.
