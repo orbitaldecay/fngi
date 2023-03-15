@@ -50,7 +50,7 @@ The @FngiLanguage is an imperative, stack-based programming language. The purpos
 [+]
 1. The @Token @ProgramOne is a @ValueToken. It @Means @Push the @Number 1 to the @WorkingStack.
 2. The @Token @ProgramTwelve is a@ValueToken. It @Means @Push the @Number 12 to the @WorkingStack.
-3. The @Token @ProgramHex is a @ValueToken. It @Means means @Push the @Number 16 to the @WorkingStack.
+3. The @Token @ProgramHex is a @ValueToken. It @Means @Push the @Number 16 to the @WorkingStack.
 4. The @FngiProgram @ProgramOneTwo is made of the @ValueTokens @ProgramOne and @ProgramTwo. These @ValueTokens are separated by @WhiteSpace. The @FngiProgram @ProgramOneTwo @Means @Push the @Number 1 to the @WorkingStack, then @Push the @Number 2 to the @WorkingStack. 
 [/]
 
