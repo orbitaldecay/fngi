@@ -2,7 +2,7 @@
 
 [h2]Document conventions[/]
 
-Words in [b]bold[b] have special meaning:
+Text written in the @FngiLanguage is [c]monospaced[c]. Details are [i]italicized[i]. [!]Text in developer comments is for authors.[/] Words in [b]bold[b] have special meaning:
 
 [+]
 * The word @ALWAYS means the statement is always true; if the statement is ever false then we have made a mistake.
@@ -11,15 +11,13 @@ Words in [b]bold[b] have special meaning:
 * The word @NEVER means the statement is never true. If the statement is ever true then we have made a mistake.
 [/]
 
-Text written in the @FngiLanguage is @ALWAYS [c]monospaced[c]. Details are [i]italicized[i]. [!]Text in developer comments is for authors.[/]
-
 [h2]Introduction[/]
 
 The @FngiLanguage is an imperative, stack-based programming language.
 
 [h3]@TokensCap[/]
 
-A @FngiProgram is a program written in the @FngiLanguage. @FngiProgramsCap are made of @Tokens. @TokensCap are @USUALLY @Evaluated sequentially.
+A @FngiProgram is a program written in the @FngiLanguage. @FngiProgramsCap are made of @Tokens. @TokensCap are @Parsed sequentially. @TokensCap are @USUALLY @Evaluated when they are parsed.
 
 [!]I am writing this for the purposes of explaining how fngi programs are executed. From that perspective, we are interested in explaining the order of execution of tokens. Let me know if you think this is at all unclear.[/]
 
@@ -27,7 +25,7 @@ White space is @SOMETIMES used to separate @Tokens, but white space has no meani
 
 [h3]@ValueTokensCap[/]
 
-A @ValueToken is a kind of @Token. When a @ValueToken is @Executed, the @Number represented by the @ValueToken is pushed to the @WorkingStack. When two @ValueTokens occur sequentially, they are separated by white space.
+A @ValueToken is a kind of @Token. When a @ValueToken is @Executed, the @Number represented by the @ValueToken is pushed to the @WorkingStack. When two @ValueTokens occur sequentially in a @FngiProgram, they should be separated by white space.
 
 [+]
 * The @Token @ProgramOne is a @ValueToken. When this @Token is @Executed, the @Number 1 is pushed to the @WorkingStack.
@@ -38,36 +36,34 @@ A @ValueToken is a kind of @Token. When a @ValueToken is @Executed, the @Number 
 
 [h3]@FunctionTokensCap[/]
 
-A @FunctionToken is a kind of @Token. @FunctionTokensCap in @Fngi are @Evaluated differently than functions in many other stack-based languages. Rather than being @Evaluated when they are encountered, @FunctionToken @Evaluation is @Defered until after the next @Token is @Evaluated.
+A @FunctionToken is a kind of @Token. @FunctionTokensCap are not @Evaluated when they are @Parsed. @FunctionTokensCap are @Evaluated after the next @Token is @Evaluated. We call this @Defered @Evaluation.
 
 The @Token @ProgramAdd is a @FunctionToken. When @ProgramAdd is @Executed, two @Numbers are popped from the @WorkingStack, then their sum is pushed to the @WorkingStack. The @Execution of the @FngiProgram @ProgramOnePlusTwo performs the following operations in order:
 
 [+]
-1. Push the @Number 1 onto the @WorkingStack.
-2. Push the @Number 2 onto the @WorkingStack (the @Evaluation of @ProgramAdd was @Defered).
-3. Finally, execute @ProgramAdd.
+1. Push the @Number 1 on the @WorkingStack.
+2. Push the @Number 2 on the @WorkingStack (the @Evaluation of @ProgramAdd was @Defered).
+3. Execute @ProgramAdd and leave 3 on the @WorkingStack.
 [/]
 
-When this is performed, the @Number 3 is left on the @WorkingStack. Notice how this allows @FunctionTokens of arity 2 to be written in infix notation.
-
-The token @ProgramMul is a @FunctionToken. When @ProgramMul is @Executed, two @Numbers are popped from the @WorkingStack, then their product is pushed to the @WorkingStack. The @Execution of the @FngiProgram @Program1Add4Mul2 performs the following operations in order:
+The token @ProgramMul is a @FunctionToken. When @ProgramMul is @Executed, two @Numbers are popped from the @WorkingStack, then their product is pushed to the @WorkingStack. The @Execution of the @FngiProgram @Program1Add2Mul4 performs the following operations in order:
 
 [+]
-1. Push the @Number 1 onto the @WorkingStack.
-2. Push the @Number 2 onto the @WorkingStack (the @Evaluation of @ProgramAdd was @Defered).
-3. Execute @ProgramAdd leaving the @Number 3 on the @WorkingStack.
-4. Push the @Number 4 onto the @WorkingStack (the @Evaluation of @ProgramMul was @Defered).
-5. Execute @ProgramMul leaving the @Number 12 on the @WorkingStack.
+1. Push the @Number 1 on the @WorkingStack.
+2. Push the @Number 2 on the @WorkingStack (the @Evaluation of @ProgramAdd was @Defered).
+3. Execute @ProgramAdd and leave the @Number 3 on the @WorkingStack.
+4. Push the @Number 4 on the @WorkingStack (the @Evaluation of @ProgramMul was @Defered).
+5. Execute @ProgramMul and leave the @Number 12 on the @WorkingStack.
 [/]
 
-When multiple @FunctionTokens are @Defered successively, they are @Evaluated in the opposite order in which they were @Defered. The @Execution of the @FngiProgram @ProgramOneTwoAddMulFour (a very ugly, but valid @FngiProgram) performs the following operations in order:
+When multiple @FunctionTokens are @Defered in sequence, they are @Evaluated in the opposite order in which they were @Defered. The @Execution of the @FngiProgram @ProgramOneTwoAddMulFour (a very ugly, but valid @FngiProgram) performs the following operations in order:
 
 [+]
-1. Push the @Number 1 onto the @WorkingStack.
-2. Push the @Number 2 onto the @WorkingStack.
-3. Push the @Number 4 onto the @WorkingStack (the @Evaluation of @ProgramAdd was @Defered, then the @Evaluation of @ProgramMul was @Defered).
-4. Execute @ProgramMul, leaving the @Number 8 on top of the @WorkingStack.
-5. Execute @ProgramAdd, leaving the @Number 9 on top of the @WorkingStack.
+1. Push the @Number 1 on the @WorkingStack.
+2. Push the @Number 2 on the @WorkingStack.
+3. Push the @Number 4 on the @WorkingStack (the @Evaluation of @ProgramAdd was @Defered, then the @Evaluation of @ProgramMul was @Defered).
+4. Execute @ProgramMul and leave the @Number 8 on the @WorkingStack.
+5. Execute @ProgramAdd and leave the @Number 9 on the @WorkingStack.
 [/]
 
 [h3]@ImmediateCap and @Delayed @Execution[/]
@@ -146,8 +142,9 @@ For example, consider the @FngiProgram @ProgramParenExample. The @Token @Program
 [t set=SyntacticToken]		syntactic token			[/]
 [t set=SyntacticTokens]		syntactic tokens		[/]
 
-[!] evaluation and execution [/]
+[!] evaluation and execution, and parsed [/]
 
+[t set=Parsed]			parsed				[/]
 [t set=Evaluated]		evaluated			[/]
 [t set=Evaluating]		evaluating			[/]
 [t set=Evaluation]		evaluation			[/]
@@ -187,7 +184,7 @@ For example, consider the @FngiProgram @ProgramParenExample. The @Token @Program
 [t set=ProgramAdd]		[c]+[c]				[/]
 [t set=ProgramOnePlusTwo]	[c]1 + 2[c]			[/]
 [t set=ProgramMul]		[c]*[c]				[/]
-[t set=Program1Add4Mul2]	[c]1 + 4 * 2[c]			[/]
+[t set=Program1Add2Mul4]	[c]1 + 2 * 4[c]			[/]
 [t set=ProgramOneTwoAddMulFour]	[c]1 2 + * 4[c]			[/]
 [t set=ProgramImm]		[c]imm#[c]			[/]
 [t set=ProgramTwoImmThreeFour]	[c]2 imm#3 4[c]			[/]
