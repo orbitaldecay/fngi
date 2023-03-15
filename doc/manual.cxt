@@ -72,11 +72,11 @@ When a @Token is @Evaluated, that @Token is either @Executed or added to a @Dela
 
 When a @Token is @Executed @Immediately, @Execution occurs before the next @Token is @Evaluated.
 
-When a @Token undergoes @Delayed @Execution, that @Token is added to a @DelayQueue. To @Execute a @DelayQueue is to @Execute the @Tokens in that @DelayQueue in the order in which they were added. The @GlobalDelayQueue is the @DelayQueue to which @Tokens are added by default. The @GlobalDelayQueue is @Executed after all @Tokens have been @Evaluated.
+When a @Token undergoes @Delayed @Execution, that @Token is added to a @DelayQueue. To @Execute a @DelayQueue is to @Execute the @Tokens in that @DelayQueue in the order in which they were added. The @GlobalDelayQueue is the @DelayQueue to which @Tokens are @USUALLY added. The @GlobalDelayQueue is @Executed after all @Tokens have been @Evaluated.
 
 [i]In the standard implementation, the @DelayQueue is a @Spor buffer. @SporCap is the internal bytecode of the @FngiLanguage. In other implementations, the @DelayQueue could be a native code buffer, or even a literal queue of @Fngi tokens. This is all implementation specific. For the purposes of documentation, we've chosen to simply call it a @DelayQueue.[i]
 
-All of the examples of @Tokens and @FngiPrograms that we have seen thus far have used @Delayed @Execution. @ValueTokensCap and @FunctionTokens use @Delayed @Execution. A deeper level of detail to our explanation of the behavior of the @FngiProgram @ProgramOneTwo would be:
+All of the examples of @Tokens and @FngiPrograms that we have seen thus far have used @Delayed @Execution. @ValueTokensCap and @FunctionTokens @USUALLY use @Delayed @Execution. A deeper level of detail to our explanation of the behavior of the @FngiProgram @ProgramOneTwo would be:
 
 [+]
 1. The @Token @ProgramOne is @Evaluated. It undergoes @Delayed @Execution and is added to the @GlobalDelayQueue.
