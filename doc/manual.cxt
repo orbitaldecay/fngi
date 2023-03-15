@@ -72,9 +72,9 @@ When multiple @FunctionTokens are @Defered sequentially, they are @Evaluated in 
 
 When a @Token is @Evaluated, that @Token is either @Executed or added to a @DelayQueue for later @Execution. We call this @Immediate and @Delayed @Execution, respectively.
 
-When a @Token is @Executed @Immediately, @Execution occurs before the next @Token is @Evaluated.
+When a @Token is @Executed @Immediately, @Execution occurs before the next @Token is @Parsed.
 
-When a @Token undergoes @Delayed @Execution, that @Token is added to a @DelayQueue. To @Execute a @DelayQueue is to @Execute the @Tokens in that @DelayQueue in the order in which they were added. The @GlobalDelayQueue is the @DelayQueue to which @Tokens are @USUALLY added. The @GlobalDelayQueue is @Executed after all @Tokens have been @Evaluated.
+When a @Token undergoes @Delayed @Execution, that @Token is added to a @DelayQueue. The @GlobalDelayQueue is the @DelayQueue to which @Tokens are @USUALLY added. To @Execute a @DelayQueue is to @Execute the @Tokens in that @DelayQueue in the order in which they were added. The @GlobalDelayQueue is @Executed after all @Tokens have been @Evaluated.
 
 [!]In the standard implementation, the @DelayQueue is a @Spor buffer. @SporCap is the internal bytecode of the @FngiLanguage. In other implementations, the @DelayQueue could be a native code buffer, or even a literal queue of @Fngi tokens. This is all implementation specific. For the purposes of documentation, we've chosen to simply call it a @DelayQueue.[/]
 
@@ -91,7 +91,7 @@ To @Execute a @Token @Immediately, the @ProgramImm @Token is prepended to that @
 
 [+]
 1. The @Token @ProgramTwo is @Evaluated. It undergoes @Delayed @Execution and is added to the @GlobalDelayQueue.
-2. The @Token @ProgramImm causes the @Token @ProgramThree to be @Executed @Immediately. Prior to @Evaluating the @Token @ProgramFour, the @Number 3 is pushed to the @WorkingStack.
+2. The @Token @ProgramImm causes the @Token @ProgramThree to be @Executed @Immediately. Prior to @Parsing the @Token @ProgramFour, the @Number 3 is pushed to the @WorkingStack.
 3. The @Token @ProgramFour is @Evaluated. It undergoes @Delayed @Execution and is added to the @GlobalDelayQueue.
 4. The @Token @ProgramTwo is dequeued from the @GlobalDelayQueue and @Executed. The @Number 2 is pushed to the @WorkingStack.
 5. The @Token @ProgramFour is dequeued from the @GlobalDelayQueue and @Executed. The @Number 4 is pushed to the @WorkingStack.
@@ -99,7 +99,7 @@ To @Execute a @Token @Immediately, the @ProgramImm @Token is prepended to that @
 
 [h3]@SyntacticTokensCap[/]
 
-A @SyntacticToken is a kind of @Token. Unlike @ValueTokens and @FunctionTokens, @SyntacticTokens are @Executed @Immediately by default. @SyntacticTokensCap can be built-in or user defined. The general purpose of @SyntacticTokens is to implement syntactic constructs. We have already seen an example of one @SyntacticToken: the @ProgramImm @Token. The @ProgramImm @Token triggers @Immediate @Execution of the @Token which follows it.
+A @SyntacticToken is a kind of @Token. @SyntacticTokensCap are @ALWAYS @Executed @Immediately. @SyntacticTokensCap can be built-in or user defined. The general purpose of @SyntacticTokens is to implement syntactic constructs. We have already seen an example of one @SyntacticToken: the @ProgramImm @Token. The @ProgramImm @Token triggers @Immediate @Execution of the @Token which follows it.
 
 The @Token @ProgramLeftParen is a @SyntacticToken. When the @Token @ProgramLeftParen is @Executed, it @Evaluates all subsequent @Tokens until it encounters the @Token @ProgramRightParen. In effect, this causes all sequences of @Tokens which are parenthesized to be treated as a single @Token in a number of contexts.
 
@@ -147,6 +147,7 @@ For example, consider the @FngiProgram @ProgramParenExample. The @Token @Program
 [!] evaluation and execution, and parsed [/]
 
 [t set=Parsed]			parsed				[/]
+[t set=Parsing]			parsing				[/]
 [t set=Evaluated]		evaluated			[/]
 [t set=Evaluating]		evaluating			[/]
 [t set=Evaluation]		evaluation			[/]
