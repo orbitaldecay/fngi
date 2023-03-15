@@ -75,7 +75,7 @@ The @Token @ProgramAdd is a @FunctionToken. The @Token @ProgramAdd @Means @Pull 
 3. Execute @ProgramAdd. Now, the @Number 3 is on the @WorkingStack
 [/]
 
-The token @ProgramMul is a @FunctionToken. The @Token @ProgramMul @Means @Pull two @Numbers from the @WorkingStack, then @Push their sum to the @WorkingStack. The @FngiProgram @Program1Add2Mul4 @Means
+The token @ProgramMul is a @FunctionToken. The @Token @ProgramMul @Means @Pull two @Numbers from the @WorkingStack, then @Push their product to the @WorkingStack. The @FngiProgram @Program1Add2Mul4 @Means
 
 [+]
 1. @PushCap the @Number 1 to the @WorkingStack.
