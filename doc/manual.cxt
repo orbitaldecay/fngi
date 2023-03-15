@@ -40,7 +40,7 @@ The @FngiLanguage is an imperative, stack-based programming language. The purpos
 [+]
 1. A @ValueToken is a kind of @Token.
 2. @ValueTokensCap represent @Numbers.
-3. The @Meaning of a @ValueToken is @Push the @Number which is represented by the @ValueToken to the @WorkingStack.
+3. The @Meaning of a @ValueToken is to @Push the @Number which is represented by the @ValueToken to the @WorkingStack.
 4. @ValueTokensCap must be separated by @WhiteSpace when they occur @Sequentially in a @FngiProgram (4.4). 
 
 [/]
