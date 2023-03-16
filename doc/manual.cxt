@@ -187,14 +187,14 @@ Currently the @Number 3 is on the @WorkingStack. Now the @GlobalDelayQueue is @E
 [!] glossary -------------------------------------------------	[/]
 
 
-[t set=ALWAYS]			[i]always[i]			[/]
-[t set=USUALLY]			[i]usually[i]			[/]
-[t set=SOMETIMES]		[i]sometimes[i]			[/]
-[t set=NEVER]			[i]never[i]			[/]
-[t set=Iff]			[i]if and only if[i]		[/]
-[t set=HasA]			[i]has a[i]			[/]
-[t set=IsA]			[i]is a[i]			[/]
-[t set=Equals]			[i]is[i]			[/]
+[t set=ALWAYS]			[i][b]always[b][i]		[/]
+[t set=USUALLY]			[i][b]usually[b][i]		[/]
+[t set=SOMETIMES]		[i][b]sometimes[b][i]		[/]
+[t set=NEVER]			[i][b]never[b][i]		[/]
+[t set=Iff]			[i][b]if and only if[b][i]	[/]
+[t set=HasA]			[i][b]has a[b][i]		[/]
+[t set=IsA]			[i][b]is a[b][i]		[/]
+[t set=Equals]			[i][b]is[b][i]			[/]
 
 
 [!] fngi related [/]
