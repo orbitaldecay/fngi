@@ -4,8 +4,8 @@
 [+]
 1. Text written in the @FngiLanguage is [c]monospaced[c].
 2. The word @ALWAYS implies the sentence is true without exception.
-3. The word @USUALLY implies the sentence is generally true. Exceptions are explicitly stated in [b]bold[b].
-4. The word @SOMETIMES implies the sentence is generally false. Exceptions are explicitly stated in [b]bold[b].
+3. The word @USUALLY implies the sentence is generally true. Exceptions are explicitly stated.
+4. The word @SOMETIMES implies the sentence is generally false. Exceptions are explicitly stated.
 5. The word @NEVER implies the sentence is false without exception.
 6. The word @Equals implies that two phrases are equivalent (logical equivalence).
 7. The word @IsA implies the first thing is an instance of the second thing, but the second thing is not neccesarily an instance of the first (logical implication).
@@ -63,7 +63,7 @@ The @FngiLanguage is an imperative, stack-based programming language. The purpos
 [+]
 1. A @Defered @Token @IsA @Token.
 2. A @Token @IsA @Defered @Token @Iff that @Token is @Evaluated after the @Token that follows it is @Evaluated, but not before.
-3. [b]A @FunctionToken @IsA @Defered @Token.[b]
+3. A @FunctionToken @IsA @Defered @Token.
 [/]
 
 [h3]Examples[/]
@@ -133,7 +133,7 @@ The @Evaluation of the @FngiProgram is complete. The @GlobalDelayQueue is @Execu
 [h2]9. @SyntacticTokensCap[/]
 
 [+]
-1. [b]A @SyntacticToken @IsA @Immediate @Token.[b] 
+1. A @SyntacticToken @IsA @Immediate @Token.
 [/]
 
 [h3]Examples[/]
