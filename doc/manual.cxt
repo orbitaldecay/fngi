@@ -31,9 +31,8 @@ The @FngiLanguage is an imperative, stack-based programming language. The purpos
 
 [h3]5. @TokensCap[/]
 [+]
-1. A @Token is a @String. [!]Elaborate on this[/]
-2. To @Evaluate a @Token is @USUALLY to add it to an @DelayQueue. That @DelayQueue is @USUALLY the @GlobalDelayQueue.
-3. To @Execute a @Token is to do what the @Token @Means.
+1. To @Evaluate a @Token is @USUALLY to add it to an @DelayQueue. That @DelayQueue is @USUALLY the @GlobalDelayQueue.
+2. To @Execute a @Token is to do what the @Token @Means.
 
 [!]3. @WhiteSpaceCap is @SOMETIMES used to separate @Tokens.[/]
 [!]6. @TokensCap @NEVER contain @WhiteSpace.[/]
@@ -95,22 +94,21 @@ When @FunctionTokens are @Defered @Sequentially, they are @Evaluated in the orde
 
 [!]Immediate and delayed definitions do not belong here. Find a way to explain syntactic tokens without resorting to these definitions.[/]
 [h3]10. @ImmediateCap and @Delayed @Execution[/]
+[+]
+1. If a @Token is not added to an @DelayQueue, but is @Executed when it is @Evaluated then we say that @Token is @Executed @Immediately.
+2. If a @Token is not @Executed @Immediately, we its @Execution is @Delayed.
+3. The @Execution of @Tokens is @USUALLY @Delayed.
+[/]
 
-If a @Token is @Executed when it is @Evaluated instead of being added to a @DelayQueue, we say the @Token is @Executed @Immediately. Otherwise, we say the @Execution of the @Token was @Delayed. The @Execution of @Tokens is @USUALLY @Delayed.
-
-[!]In the standard implementation, the @DelayQueue is a @Spor buffer. @SporCap is the internal bytecode of the @FngiLanguage. In other implementations, the @DelayQueue could be a native code buffer, or even a literal queue of @Fngi tokens. This is all implementation specific. For the purposes of documentation, we've chosen to simply call it a @DelayQueue.[/]
-
+[h3]11. @ImmediateCap and @Delayed @Execution examples[/]
 A deeper level of detail to our explanation of the behavior of the @FngiProgram @ProgramOneTwo would be:
-
 [+]
 1. The @Token @ProgramOne is @Evaluated. It undergoes @Delayed @Execution and is added to the @GlobalDelayQueue.
 2. The @Token @ProgramTwo is @Evaluated. It undergoes @Delayed @Execution and is added to the @GlobalDelayQueue.
 3. Now that all @Tokens have been @Evaluated, we dequeue the @Token @ProgramOne from the @GlobalDelayQueue. The @Token @ProgramOne is @Executed, and the @Number 1 is pushed to the @WorkingStack.
 4. We dequeue the @Token @ProgramTwo from the @GlobalDelayQueue. The token @ProgramTwo is @Executed, and the @Number 2 is pushed to the @WorkingStack.
 [/]
-
 To @Execute a @Token @Immediately, the @ProgramImm @Token is prepended to that @Token. The @ProgramImm @Token is @ALWAYS @Executed @Immediately. For example, when the @FngiProgram @ProgramTwoImmThreeFour is @Executed, the following operations occur in order:
-
 [+]
 1. The @Token @ProgramTwo is @Evaluated. It undergoes @Delayed @Execution and is added to the @GlobalDelayQueue.
 2. The @Token @ProgramImm is @Executed @Immediately. It causes the @Token @ProgramThree to be @Executed @Immediately. The @Number 3 is pushed to the @WorkingStack.
