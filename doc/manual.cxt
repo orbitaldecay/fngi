@@ -112,10 +112,13 @@ A more detailed definition of the meaning of the @FngiProgram @ProgramOneTwo is
 [+]
 * The @Token @ProgramOne is @Evaluated. The @Token is @Delayed and the @Context is @Delayed, so it is added to the @GlobalDelayQueue.
 * The @Token @ProgramTwo is @Evaluated. The @Token is @Delayed and the @Context is @Delayed, so it is added to the @GlobalDelayQueue.
-* The @Evaluation of the @FngiProgram is complete. The @GlobalDelayQueue is @Executed.
+[/]
+
+The @Evaluation of the @FngiProgram is complete. The @GlobalDelayQueue is @Executed.
+
+[+]
 * The token @ProgramOne is the first @Token that was added to the @GlobalDelayQueue. It is @Executed. The @Number 1 is pushed to the @WorkingStack.
 * The token @ProgramTwo is the next @Token that was added to the @GlobalDelayQueue. It is @Executed. The @Number 2 is pushed to the @WorkingStack.
-* The @Execution of the @GlobalDelayQueue is complete.
 [/]
 
 [h2]9. @SyntacticTokensCap[/]
@@ -129,7 +132,7 @@ A more detailed definition of the meaning of the @FngiProgram @ProgramOneTwo is
 
 @SyntacticTokensCap can be built-in or user defined. The general purpose of @SyntacticTokens is to implement syntactic constructs. 
 
-The @Token @ProgramLeftParen is a @SyntacticToken. The @Token @ProgramLeftParen means to @Evaluate all subsequent @Tokens in the @Context in which @ProgramLeftParen was @Evaluated until the @Token @ProgramRightParen occurs.
+The @Token @ProgramLeftParen is a @SyntacticToken. The @Token @ProgramLeftParen means to @Evaluate all subsequent @Tokens in the @Context in which @ProgramLeftParen was @Evaluated until the @Token @ProgramRightParen occurs. The @FngiProgram @ProgramParenExample means
 
 [+]
 * The @Token @ProgramOne is @Evaluated. The @Token @ProgramOne is added to the @GlobalDelayQueue.
