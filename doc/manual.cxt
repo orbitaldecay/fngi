@@ -21,6 +21,7 @@ The @FngiLanguage is an imperative, stack-based programming language. The purpos
 2. The @Meaning of a @FngiProgram is the effect of @Executing the @FngiProgram.
 3. To @Execute a @FngiProgram is to @Evaluate the @FngiProgram, then @Execute the @GlobalDelayQueue.
 4. To @Evaluate a @FngiProgram is @USUALLY to @Evaluate its @Tokens in order.
+5. The @Evaluation of a @Token occurs in a @Context.
 [/]
 
 [h2]4. @DelayQueuesCap[/]
@@ -94,20 +95,23 @@ When @Defered @Tokens occur @Sequentially, they are @Evaluated in the order oppo
 [/]
 
 [!]Immediate and delayed definitions do not belong here. Find a way to explain syntactic tokens without resorting to these definitions.[/]
-[h2]8. @ImmediateCap and @Delayed @Execution[/]
+[h2]@ImmediateCap[/]
 
 [+]
-1. If a @Token is not added to an @DelayQueue when it is @Evaluated, but is @Executed when it is @Evaluated then we say that @Token is @Immediate.
-2. If a @Token is added to an @DelayQueue when it is @Evaluated, but is not @Executed when it is @Evaluated then we say that @Token is @Delayed.
-3. @TokensCap are @USUALLY @Delayed.
+1. If a @Token is @NEVER added to an @DelayQueue when it is @Evaluated, but is @ALWAYS @Executed when it is @Evaluated then we say that @Token is @Immediate.
+2. If the @Context in which the @Evaluation of a @Token occurs is @Immediate then the @Token is @Evaluated as if it were @Immediate.
+3. If a @Token is not @Immediate then the @Token is @Delayed.
+4. If a @Context is not @Immediate then the @Context is @Delayed.
+5. @TokensCap are @USUALLY @Delayed.
+6. @ContextsCap are @USUALLY @Delayed.
 [/]
 
 [h3]Examples[/]
 A more detailed definition of the meaning of the @FngiProgram @ProgramOneTwo is
 
 [+]
-* The @Token @ProgramOne is @Evaluated. It is @Delayed, so it is added to the @GlobalDelayQueue.
-* The @Token @ProgramTwo is @Evaluated. It is @Delayed, so it is added to the @GlobalDelayQueue.
+* The @Token @ProgramOne is @Evaluated. The @Token is @Delayed and the @Context is @Delayed, so it is added to the @GlobalDelayQueue.
+* The @Token @ProgramTwo is @Evaluated. The @Token is @Delayed and the @Context is @Delayed, so it is added to the @GlobalDelayQueue.
 * The @Evaluation of the @FngiProgram is complete. The @GlobalDelayQueue is @Executed.
 * The token @ProgramOne is the first @Token that was added to the @GlobalDelayQueue. It is @Executed. The @Number 1 is pushed to the @WorkingStack.
 * The token @ProgramTwo is the next @Token that was added to the @GlobalDelayQueue. It is @Executed. The @Number 2 is pushed to the @WorkingStack.
@@ -118,42 +122,51 @@ A more detailed definition of the meaning of the @FngiProgram @ProgramOneTwo is
 
 [+]
 1. @SyntacticTokensCap are a kind of @Token.
-2. [b]@SyntacticTokensCap are @ALWAYS @Immediate[b]. 
+2. [b]@SyntacticTokensCap are @Immediate[b]. 
 [/]
 
 [h3]Examples[/]
 
 @SyntacticTokensCap can be built-in or user defined. The general purpose of @SyntacticTokens is to implement syntactic constructs. 
 
-The @Token @ProgramLeftParen is a @SyntacticToken. The @Token @ProgramLeftParen means to @Evaluate all subsequent @Tokens in the context in which @ProgramLeftParen was @Evaluated until the corresponding @Token @ProgramRightParen occurs. In effect, this is to say all sequences of @Tokens which are parenthesized are treated as a single @Token. The @FngiProgram @ProgramParenExample means
+The @Token @ProgramLeftParen is a @SyntacticToken. The @Token @ProgramLeftParen means to @Evaluate all subsequent @Tokens in the @Context in which @ProgramLeftParen was @Evaluated until the @Token @ProgramRightParen occurs.
 
 [+]
-* The @Token @ProgramOne is @Evaluated. The @Number 1 is @Pushed to the @WorkingStack.
-* The @Token @ProgramLeftParen is @Evaluated (@ProgramAdd is defered). All @Tokens subsequent @Tokens until the corresponding @Token @ProgramRightParen are @Evaluated.
-* The @Token @ProgramTwo is @Evaluated. The @Number 2 is @Pushed to the @WorkingStack.
-* The @Token @ProgramFour is @Evaluated (@ProgramMul is defered). The @Number 4 is @Pushed to the @WorkingStack.
-* The @Token @ProgramMul is @Evaluated. The @Number 8 is on the @WorkingStack.
-* The @Token @ProgramRightParen occurs. We return to the context in which @ProgramLeftParen was @Evaluated.
-* The @Token @ProgramAdd is @Evaluated. The @Number 9 is on the @WorkingStack.
+* The @Token @ProgramOne is @Evaluated. The @Token @ProgramOne is added to the @GlobalDelayQueue.
+* The @Token @ProgramLeftParen is @Evaluated (@ProgramAdd is defered). The @Token @ProgramLeftParen is @Immediate, so it is @Executed now. That means
+[+]
+* The @Token @ProgramTwo is @Evaluated. The @Token @ProgramTwo is added to the @GlobalDelayQueue.
+* The @Token @ProgramFour is @Evaluated (@ProgramMul is defered). The @Token @ProgramFour is added to the @GlobalDelayQueue.
+* The @Token @ProgramMul is @Evaluated. The @Token @ProgramMul is added to the @GlobalDelayQueue.
+* The @Token @ProgramRightParen occurs.
+[/]
+* The @Token @ProgramAdd is @Evaluated. The @Token @ProgramAdd is added to the @GlobalDelayQueue.
 [/]
 
-The @ProgramImm @Token is a @SyntacticToken. The @ProgramImm @Token @Means to @Evaluate the next @Token as if it were @Immediate. The @FngiProgram @ProgramTwoImmThreeFour @Means
+Now the @GlobalDelayQueue is executed. This means
 
 [+]
-* The @Token @ProgramTwo is @Evaluated. It is @Delayed, so it is added to the @GlobalDelayQueue.
-* The @Token @ProgramImm is @Evaluated. It is @Immediate, so it is @Executed. 
-* The @Token @ProgramThree is @Evaluated as if it were @Immediate. It is @Executed, and the @Number 3 is pushed to the @WorkingStack.
-* The @Token @ProgramFour is @Evaluated. It is @Delayed, so it is added to the @GlobalDelayQueue.
-* The @Evaluation of the @FngiProgram is complete. The @GlobalDelayQueue is @Executed.
-* The token @ProgramTwo is the first @Token that was added to the @GlobalDelayQueue. It is @Executed. The @Number 2 is pushed to the @WorkingStack.
-* The token @ProgramFour is the next @Token that was added to the @GlobalDelayQueue. It is @Executed. The @Number 4 is pushed to the @WorkingStack.
-* @Execution of the @GlobalDelayQueue is complete.
+* The @Token @ProgramOne is @Executed. The @Number 1 is @Pushed to the @WorkingStack.
+* The @Token @ProgramTwo is @Executed. The @Number 2 is @Pushed to the @WorkingStack.
+* The @Token @ProgramFour is @Executed. The @Number 4 is @Pushed to the @WorkingStack.
+* The @Token @ProgramMul is @Executed. The @Number 8 is on the @WorkingStack.
+* The @Token @ProgramAdd is @Executed. The @Number 9 is on the @WorkingStack.
 [/]
 
-The @Meaning of @FngiProgram @ProgramTwoImmThreeFour is, in summary,
+The @ProgramImm @Token is a @SyntacticToken. The @ProgramImm @Token @Means to @Evaluate the next @Token in an @Immediate @Context. The @FngiProgram @ProgramTwoImmThreeFour @Means
 
 [+]
-* @PushCap the @Number 3 to the @WorkingStack.
+* The @Token @ProgramTwo is added to the @GlobalDelayQueue.
+* The @Token @ProgramImm is @Immediate, so it is @Executed. This means:
+[+]
+* The @Token @ProgramThree is @Evaluated in an @Immediate @Context. It is @Executed, and the @Number 3 is pushed to the @WorkingStack.
+[/]
+* The @Token @ProgramFour is added to the @GlobalDelayQueue.
+[/]
+
+Currently the @Number 3 is on the @WorkingStack. Now the @GlobalDelayQueue is @Executed. That means
+
+[+]
 * @PushCap the @Number 2 to the @WorkingStack.
 * @PushCap the @Number 4 to the @WorkingStack.
 [/]
@@ -216,11 +229,13 @@ The @Meaning of @FngiProgram @ProgramTwoImmThreeFour is, in summary,
 [t set=Execution]		execution			[/]
 [t set=Executing]		executing			[/]
 
-[!] defered, delayed, immediate [/]
+[!] defered, delayed, immediate, context [/]
 
 [t set=DeferedCap]		Defered				[/]
 [t set=Defered]			defered				[/]
 [t set=Delayed]			delayed				[/]
+[t set=Context]			context				[/]
+[t set=ContextsCap]		Contexts			[/]
 [t set=ImmediateCap]		Immediate			[/]
 [t set=Immediate]		immediate			[/]
 [t set=Immediately]		immediately			[/]
