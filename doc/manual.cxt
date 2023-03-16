@@ -7,35 +7,35 @@
 3. The word @USUALLY implies the sentence is generally true. Exceptions are explicitly stated.
 4. The word @SOMETIMES implies the sentence is generally false. Exceptions are explicitly stated.
 5. The word @NEVER implies the sentence is false without exception.
-6. The word @Equals implies that two phrases are equivalent (logical equivalence).
-7. The word @IsA implies the first thing is an instance of the second thing, but the second thing is not neccesarily an instance of the first (logical implication).
-8. The word @HasA implies the first thing is a property of the second thing.
+6. The word @Is (@Are) implies that two phrases are equivalent (logical equivalence).
+7. The word @IsA (@IsAn) implies the first thing is an instance of the second thing, but the second thing is not neccesarily an instance of the first (logical implication).
+8. The word @HasA (@HasAn) implies the first thing is a property of the second thing.
 [/]
 
 [!]Text in developer comments is for authors.[/] 
 
 [h2]2. Introduction[/]
 
-The @FngiLanguage is an imperative, stack-based programming language. The purpose of this manual is to explain the @Meaning of @FngiPrograms.
+The @FngiLanguage @IsAn imperative, stack-based programming language. This manual defines the @Meaning of @FngiPrograms.
 
-[h2]3. @FngiProgramsCap[/]
+[h2]@FngiProgramsCap[/]
 [+]
-1. A @FngiProgram @Equals a @Sequence of @Tokens.
-2. The @Meaning of a @FngiProgram @Equals the effect of @Executing the @FngiProgram.
-3. To @Execute a @FngiProgram @Equals to @Evaluate the @FngiProgram, then @Execute the @GlobalDelayQueue.
-4. To @Evaluate a @FngiProgram @Equals @USUALLY to @Evaluate its @Tokens in order.
+1. @FngiProgramsCap @Are @Sequences of @Tokens.
+2. The @Meaning of a @FngiProgram @Is the effect of @Executing the @FngiProgram.
+3. To @Execute a @FngiProgram @Is to @Evaluate it, then @Execute the @GlobalDelayQueue.
+4. To @Evaluate a @FngiProgram @Is to @Evaluate its @Tokens.
 [/]
 
-[h2]4. @DelayQueuesCap[/]
+[h2]@DelayQueuesCap[/]
 [+]
 1. The @GlobalDelayQueue @IsA @DelayQueue.
-2. To @Execute an @DelayQueue @Equals to @Execute the @Tokens which were added to it in the order in which they were added.
+2. To @Execute an @DelayQueue @Is to @Execute the @Tokens which were added to it in the order in which they were added.
 [/]
 
-[h2]5. @TokensCap[/]
+[h2]@TokensCap[/]
 [+]
-1. To @Evaluate a @Token @Equals @USUALLY to add it to an @DelayQueue. That @DelayQueue @Equals @USUALLY the @GlobalDelayQueue.
-2. To @Execute a @Token @Equals to do what the @Token @Means.
+1. To @Evaluate a @Token @Is @USUALLY to add it to an @DelayQueue. That @DelayQueue @Is @USUALLY the @GlobalDelayQueue.
+2. To @Execute a @Token @Is to do what the @Token @Means.
 3. The @Evaluation of a @Token @HasA @Context.
 
 [!]3. @WhiteSpaceCap is @SOMETIMES used to separate @Tokens.[/]
@@ -43,11 +43,11 @@ The @FngiLanguage is an imperative, stack-based programming language. The purpos
 [!]7. @WhiteSpaceCap @NEVER has @Meaning.[/]
 [/]
 
-[h2]6. @ValueTokensCap[/]
+[h2]@ValueTokensCap[/]
 [+]
 1. A @ValueToken @IsA @Token.
-2. A @ValueToken represents a @Number.
-3. The @Meaning of a @ValueToken @Equals to @Push the @Number that is represents to the @WorkingStack.
+2. A @ValueToken @HasA @Number.
+3. The @Meaning of a @ValueToken @Is to @Push its @Number to the @WorkingStack.
 [!]4. @ValueTokensCap must be separated by @WhiteSpace when they occur @Sequentially in a @FngiProgram.[/]
 [/]
 
@@ -61,9 +61,10 @@ The @FngiLanguage is an imperative, stack-based programming language. The purpos
 
 [h2]7. @FunctionTokensCap[/]
 [+]
-1. A @Defered @Token @IsA @Token.
-2. A @Token @IsA @Defered @Token @Iff that @Token is @Evaluated after the @Token that follows it is @Evaluated, but not before.
-3. A @FunctionToken @IsA @Defered @Token.
+1. @Tokens are @USUALLY @Evaluated in order.
+2. A @Defered @Token @IsA @Token.
+3. A @Token @IsA @Defered @Token @Iff that @Token is @Evaluated after the @Token that follows it is @Evaluated, but not before.
+4. A @FunctionToken @IsA @Defered @Token.
 [/]
 
 [h3]Examples[/]
@@ -83,7 +84,7 @@ The token @ProgramMul @IsA @FunctionToken. The @Token @ProgramMul @Means to @Pul
 2. @PushCap the @Number 2 to the @WorkingStack (@ProgramAdd @IsA @Defered @Token).
 3. Execute @ProgramAdd. Now, the @Number 3 is on the @WorkingStack.
 4. @PushCap the @Number 4 to the @WorkingStack (@ProgramMul @IsA @Defered @Token).
-5. Execute @ProgramMul. Now, the @Number 12 on the @WorkingStack.
+5. Execute @ProgramMul. Now, the @Number 12 is on the @WorkingStack.
 [/]
 
 When @Defered @Tokens occur @Sequentially, they are @Evaluated in the order opposite to which they occur. The @FngiProgram @ProgramOneTwoAddMulFour @Means
@@ -187,14 +188,17 @@ Currently the @Number 3 is on the @WorkingStack. Now the @GlobalDelayQueue is @E
 [!] glossary -------------------------------------------------	[/]
 
 
-[t set=ALWAYS]			[i][b]always[b][i]		[/]
-[t set=USUALLY]			[i][b]usually[b][i]		[/]
-[t set=SOMETIMES]		[i][b]sometimes[b][i]		[/]
-[t set=NEVER]			[i][b]never[b][i]		[/]
-[t set=Iff]			[i][b]if and only if[b][i]	[/]
-[t set=HasA]			[i][b]hasa[b][i]		[/]
-[t set=IsA]			[i][b]isa[b][i]			[/]
-[t set=Equals]			[i][b]is[b][i]			[/]
+[t set=ALWAYS]			[b]ALWAYS[b]			[/]
+[t set=USUALLY]			[b]USUALLY[b]			[/]
+[t set=SOMETIMES]		[b]SOMETIMES[b]			[/]
+[t set=NEVER]			[b]NEVER[b]			[/]
+[t set=Iff]			[b]IF AND ONLY IF[b]		[/]
+[t set=HasA]			[b]HAS A[b]			[/]
+[t set=HasAn]			[b]HAS AN[b]			[/]
+[t set=IsA]			[b]IS A[b]			[/]
+[t set=IsAn]			[b]IS AN[b]			[/]
+[t set=Is]			[b]IS[b]			[/]
+[t set=Are]			[b]ARE[b]			[/]
 
 
 [!] fngi related [/]
@@ -214,7 +218,7 @@ Currently the @Number 3 is on the @WorkingStack. Now the @GlobalDelayQueue is @E
 [t set=Token]			token				[/]
 [t set=Tokens]			tokens				[/]
 
-[!] tokens have a kind [/]
+[!] Specific classes of token [/]
 
 [t set=ValueTokenCap]		Value token			[/]
 [t set=ValueTokensCap]		Value tokens			[/]
@@ -230,19 +234,13 @@ Currently the @Number 3 is on the @WorkingStack. Now the @GlobalDelayQueue is @E
 [t set=SyntacticToken]		syntactic token			[/]
 [t set=SyntacticTokens]		syntactic tokens		[/]
 
-[!] evaluation and execution, and parsed [/]
-
-[t set=Parse]			parse				[/]
-[t set=Parsed]			parsed				[/]
-[t set=Parsing]			parsing				[/]
+[!] evaluation and execution, and context [/]
 
 [t set=Evaluate]		evaluate			[/]
 [t set=Evaluated]		evaluated			[/]
 [t set=Evaluating]		evaluating			[/]
 [t set=Evaluation]		evaluation			[/]
 [t set=Evaluates]		evaluates			[/]
-
-[!] evaluation has a context [/]
 
 [t set=ContextsCap]		Contexts			[/]
 [t set=Contexts]		contexts			[/]
@@ -282,6 +280,7 @@ Currently the @Number 3 is on the @WorkingStack. Now the @GlobalDelayQueue is @E
 
 [!] misc [/]
 
+[t set=Sequences]		sequences			[/]
 [t set=Sequence]		sequence			[/]
 [t set=Sequentially]		sequentially			[/]
 [t set=Subsequent]		subsequent			[/]
