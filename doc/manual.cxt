@@ -43,7 +43,7 @@ The @FngiLanguage is an imperative, stack-based programming language. The purpos
 [+]
 1. A @ValueToken is a @Token.
 2. @ValueTokensCap represent @Numbers.
-3. The @Meaning of a @ValueToken is to @Push the @Number which is represented by the @ValueToken to the @WorkingStack.
+3. The @Meaning of a @ValueToken is to @Push the @Number that is represents to the @WorkingStack.
 [!]4. @ValueTokensCap must be separated by @WhiteSpace when they occur @Sequentially in a @FngiProgram.[/]
 [/]
 
@@ -58,8 +58,8 @@ The @FngiLanguage is an imperative, stack-based programming language. The purpos
 [h2]7. @FunctionTokensCap[/]
 [+]
 1. A @FunctionToken is a @Token.
-2. @DeferedCap @Evaluation is to @Evaluate a @Token after the @Subsequent @Token in its @FngiProgram has been @Evaluated.
-3. The @Evaluation of @FunctionTokens is @ALWAYS @Defered.
+2. If a @Token is @Evaluated after the @Token that follows it is @Evaluated, but not before, then that @Token is @Defered.
+3. @FunctionTokensCap are @ALWAYS @Defered.
 [/]
 
 [h3]Examples[/]
@@ -95,9 +95,9 @@ When @FunctionTokens are @Defered @Sequentially, they are @Evaluated in the orde
 [!]Immediate and delayed definitions do not belong here. Find a way to explain syntactic tokens without resorting to these definitions.[/]
 [h2]8. @ImmediateCap and @Delayed @Execution[/]
 [+]
-1. If a @Token is not added to an @DelayQueue, but is @Executed when it is @Evaluated then we say that @Token is @Executed @Immediately.
-2. If a @Token is not @Executed @Immediately, we its @Execution is @Delayed.
-3. The @Execution of @Tokens is @USUALLY @Delayed.
+1. If a @Token is not added to an @DelayQueue when it is @Evaluated, but is @Executed when it is @Evaluated then we say that @Token is @Immediate.
+2. If a @Token is added to an @DelayQueue when it is @Evaluated, but is not @Executed when it is @Evaluated then we say that @Token is @Delayed.
+3. @TokensCap are @USUALLY @Delayed.
 [/]
 
 [h3]Examples[/]
