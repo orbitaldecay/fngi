@@ -8,8 +8,8 @@
 4. The word @SOMETIMES implies the sentence is generally false. Exceptions are explicitly stated in [b]bold[b].
 5. The word @NEVER implies the sentence is false without exception.
 6. The word @Equals implies that two phrases are equivalent (logical equivalence).
-7. The phrase @IsA implies the first thing is an instance of the second thing, but the second thing is not neccesarily an instance of the first (logical implication).
-8. The phrase @HasA implies the first thing is a property of the second thing.
+7. The word @IsA implies the first thing is an instance of the second thing, but the second thing is not neccesarily an instance of the first (logical implication).
+8. The word @HasA implies the first thing is a property of the second thing.
 [/]
 
 [!]Text in developer comments is for authors.[/] 
@@ -192,8 +192,8 @@ Currently the @Number 3 is on the @WorkingStack. Now the @GlobalDelayQueue is @E
 [t set=SOMETIMES]		[i][b]sometimes[b][i]		[/]
 [t set=NEVER]			[i][b]never[b][i]		[/]
 [t set=Iff]			[i][b]if and only if[b][i]	[/]
-[t set=HasA]			[i][b]has a[b][i]		[/]
-[t set=IsA]			[i][b]is a[b][i]		[/]
+[t set=HasA]			[i][b]hasa[b][i]		[/]
+[t set=IsA]			[i][b]isa[b][i]			[/]
 [t set=Equals]			[i][b]is[b][i]			[/]
 
 
