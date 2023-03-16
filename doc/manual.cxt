@@ -3,10 +3,10 @@
 [h2]1. Document conventions[/]
 [+]
 1. Text written in the @FngiLanguage is [c]monospaced[c].
-2. The word @ALWAYS implies the sentence is always true; if the sentence is ever false then we have made a mistake.
-3. The word @USUALLY implies the sentence is assumed to be true. We write when it is false.
-4. The word @SOMETIMES implies the sentence is assumed to be false. We write when it is true.
-5. The word @NEVER implies sentence is never true. If the sentence is ever true then we have made a mistake.
+2. The word @ALWAYS implies the sentence is true without exception.
+3. The word @USUALLY implies the sentence is generally true. Exceptions are explicitly stated in [b]bold[b].
+4. The word @SOMETIMES implies the sentence is generally false. Exceptions are explicitly stated in [b]bold[b].
+5. The word @NEVER implies the sentence is false without exception.
 [/]
 
 [!]Text in developer comments is for authors.[/] 
@@ -26,13 +26,14 @@ The @FngiLanguage is an imperative, stack-based programming language. The purpos
 [h2]4. @DelayQueuesCap[/]
 [+]
 1. The @GlobalDelayQueue is an @DelayQueue.
-2. To @Execute an @DelayQueue is to @Execute the @Tokens which have been added to it in the order in which they were added.
+2. To @Execute an @DelayQueue is to @Execute the @Tokens which were added to it in the order in which they were added.
 [/]
 
 [h2]5. @TokensCap[/]
 [+]
 1. To @Evaluate a @Token is @USUALLY to add it to an @DelayQueue. That @DelayQueue is @USUALLY the @GlobalDelayQueue.
 2. To @Execute a @Token is to do what the @Token @Means.
+3. A @Token is exactly one kind of @Token.
 
 [!]3. @WhiteSpaceCap is @SOMETIMES used to separate @Tokens.[/]
 [!]6. @TokensCap @NEVER contain @WhiteSpace.[/]
@@ -41,30 +42,30 @@ The @FngiLanguage is an imperative, stack-based programming language. The purpos
 
 [h2]6. @ValueTokensCap[/]
 [+]
-1. A @ValueToken is a @Token.
-2. @ValueTokensCap represent @Numbers.
+1. @ValueTokensCap are a kind of @Token.
+2. A @ValueToken represents a @Number.
 3. The @Meaning of a @ValueToken is to @Push the @Number that is represents to the @WorkingStack.
 [!]4. @ValueTokensCap must be separated by @WhiteSpace when they occur @Sequentially in a @FngiProgram.[/]
 [/]
 
 [h3]Examples[/]
 [+]
-1. The @Token @ProgramOne is a @ValueToken. It @Means @Push the @Number 1 to the @WorkingStack.
-2. The @Token @ProgramTwelve is a @ValueToken. It @Means @Push the @Number 12 to the @WorkingStack.
-3. The @Token @ProgramHex is a @ValueToken. It @Means @Push the @Number 16 to the @WorkingStack.
-4. The @FngiProgram @ProgramOneTwo is made of the @ValueTokens @ProgramOne and @ProgramTwo. The @FngiProgram @ProgramOneTwo @Means @Push the @Number 1 to the @WorkingStack, then @Push the @Number 2 to the @WorkingStack. 
+* The @Token @ProgramOne is a @ValueToken. It @Means to @Push the @Number 1 to the @WorkingStack.
+* The @Token @ProgramTwelve is a @ValueToken. It @Means to @Push the @Number 12 to the @WorkingStack.
+* The @Token @ProgramHex is a @ValueToken. It @Means to @Push the @Number 16 to the @WorkingStack.
+* The @FngiProgram @ProgramOneTwo is made of the @ValueTokens @ProgramOne and @ProgramTwo. The @FngiProgram @ProgramOneTwo @Means to @Push the @Number 1 to the @WorkingStack, then @Push the @Number 2 to the @WorkingStack. 
 [/]
 
 [h2]7. @FunctionTokensCap[/]
 [+]
-1. A @FunctionToken is a @Token.
+1. @FunctionTokensCap are a kind of @Token.
 2. If a @Token is @Evaluated after the @Token that follows it is @Evaluated, but not before, then that @Token is @Defered.
-3. @FunctionTokensCap are @ALWAYS @Defered.
+3. [b]@FunctionTokensCap are @ALWAYS @Defered.[b]
 [/]
 
 [h3]Examples[/]
 
-The @Token @ProgramAdd is a @FunctionToken. The @Token @ProgramAdd @Means @Pull two @Numbers from the @WorkingStack, then @Push their sum to the @WorkingStack. The @FngiProgram @ProgramOnePlusTwo @Means
+The @Token @ProgramAdd is a @FunctionToken. The @Token @ProgramAdd @Means to @Pull two @Numbers from the @WorkingStack, then @Push their sum to the @WorkingStack. The @FngiProgram @ProgramOnePlusTwo @Means
 
 [+]
 1. @PushCap the @Number 1 to the @WorkingStack.
@@ -72,7 +73,7 @@ The @Token @ProgramAdd is a @FunctionToken. The @Token @ProgramAdd @Means @Pull 
 3. Execute @ProgramAdd. Now, the @Number 3 is on the @WorkingStack
 [/]
 
-The token @ProgramMul is a @FunctionToken. The @Token @ProgramMul @Means @Pull two @Numbers from the @WorkingStack, then @Push their product to the @WorkingStack. The @FngiProgram @Program1Add2Mul4 @Means
+The token @ProgramMul is a @FunctionToken. The @Token @ProgramMul @Means to @Pull two @Numbers from the @WorkingStack, then @Push their product to the @WorkingStack. The @FngiProgram @Program1Add2Mul4 @Means
 
 [+]
 1. @PushCap the @Number 1 to the @WorkingStack.
@@ -82,7 +83,7 @@ The token @ProgramMul is a @FunctionToken. The @Token @ProgramMul @Means @Pull t
 5. Execute @ProgramMul. Now, the @Number 12 on the @WorkingStack.
 [/]
 
-When @FunctionTokens are @Defered @Sequentially, they are @Evaluated in the order opposite to which they were @Defered. The @FngiProgram @ProgramOneTwoAddMulFour @Means
+When @Defered @Tokens occur @Sequentially, they are @Evaluated in the order opposite to which they occur. The @FngiProgram @ProgramOneTwoAddMulFour @Means
 
 [+]
 1. @PushCap the @Number 1 to the @WorkingStack.
@@ -94,6 +95,7 @@ When @FunctionTokens are @Defered @Sequentially, they are @Evaluated in the orde
 
 [!]Immediate and delayed definitions do not belong here. Find a way to explain syntactic tokens without resorting to these definitions.[/]
 [h2]8. @ImmediateCap and @Delayed @Execution[/]
+
 [+]
 1. If a @Token is not added to an @DelayQueue when it is @Evaluated, but is @Executed when it is @Evaluated then we say that @Token is @Immediate.
 2. If a @Token is added to an @DelayQueue when it is @Evaluated, but is not @Executed when it is @Evaluated then we say that @Token is @Delayed.
@@ -101,29 +103,60 @@ When @FunctionTokens are @Defered @Sequentially, they are @Evaluated in the orde
 [/]
 
 [h3]Examples[/]
-A deeper level of detail to our explanation of the behavior of the @FngiProgram @ProgramOneTwo would be:
+A more detailed definition of the meaning of the @FngiProgram @ProgramOneTwo is
+
 [+]
-1. The @Token @ProgramOne is @Evaluated. It undergoes @Delayed @Execution and is added to the @GlobalDelayQueue.
-2. The @Token @ProgramTwo is @Evaluated. It undergoes @Delayed @Execution and is added to the @GlobalDelayQueue.
-3. Now that all @Tokens have been @Evaluated, we dequeue the @Token @ProgramOne from the @GlobalDelayQueue. The @Token @ProgramOne is @Executed, and the @Number 1 is pushed to the @WorkingStack.
-4. We dequeue the @Token @ProgramTwo from the @GlobalDelayQueue. The token @ProgramTwo is @Executed, and the @Number 2 is pushed to the @WorkingStack.
-[/]
-To @Execute a @Token @Immediately, the @ProgramImm @Token is prepended to that @Token. The @ProgramImm @Token is @ALWAYS @Executed @Immediately. For example, when the @FngiProgram @ProgramTwoImmThreeFour is @Executed, the following operations occur in order:
-[+]
-1. The @Token @ProgramTwo is @Evaluated. It undergoes @Delayed @Execution and is added to the @GlobalDelayQueue.
-2. The @Token @ProgramImm is @Executed @Immediately. It causes the @Token @ProgramThree to be @Executed @Immediately. The @Number 3 is pushed to the @WorkingStack.
-3. The @Token @ProgramFour is @Evaluated. It undergoes @Delayed @Execution and is added to the @GlobalDelayQueue.
-4. The @Token @ProgramTwo is dequeued from the @GlobalDelayQueue and @Executed. The @Number 2 is pushed to the @WorkingStack.
-5. The @Token @ProgramFour is dequeued from the @GlobalDelayQueue and @Executed. The @Number 4 is pushed to the @WorkingStack.
+* The @Token @ProgramOne is @Evaluated. It is @Delayed, so it is added to the @GlobalDelayQueue.
+* The @Token @ProgramTwo is @Evaluated. It is @Delayed, so it is added to the @GlobalDelayQueue.
+* The @Evaluation of the @FngiProgram is complete. The @GlobalDelayQueue is @Executed.
+* The token @ProgramOne is the first @Token that was added to the @GlobalDelayQueue. It is @Executed. The @Number 1 is pushed to the @WorkingStack.
+* The token @ProgramTwo is the next @Token that was added to the @GlobalDelayQueue. It is @Executed. The @Number 2 is pushed to the @WorkingStack.
+* The @Execution of the @GlobalDelayQueue is complete.
 [/]
 
 [h2]9. @SyntacticTokensCap[/]
 
-A @SyntacticToken is a kind of @Token. @SyntacticTokensCap are @ALWAYS @Executed @Immediately. @SyntacticTokensCap can be built-in or user defined. The general purpose of @SyntacticTokens is to implement syntactic constructs. We have already seen an example of one @SyntacticToken: the @ProgramImm @Token. The @ProgramImm @Token triggers @Immediate @Execution of the @Token which follows it.
+[+]
+1. @SyntacticTokensCap are a kind of @Token.
+2. [b]@SyntacticTokensCap are @ALWAYS @Immediate[b]. 
+[/]
 
-The @Token @ProgramLeftParen is a @SyntacticToken. When the @Token @ProgramLeftParen is @Executed, it @Evaluates all subsequent @Tokens until it encounters the @Token @ProgramRightParen. In effect, this causes all sequences of @Tokens which are parenthesized to be treated as a single @Token in a number of contexts.
+[h3]Examples[/]
 
-For example, consider the @FngiProgram @ProgramParenExample. The @Token @ProgramFive undergoes @Delayed @Execution. The @Token @ProgramImm causes the token @ProgramLeftParen to be @Executed @Immediately. The @Token @ProgramLeftParen @Evaluates @ProgramOnePlusTwo (stopping at @ProgramRightParen) and triggers their @Immediate @Execution as well. The result is that the @Number 3 is pushed to the @WorkingStack, then the @Number 5 is pushed to the @WorkingStack.
+@SyntacticTokensCap can be built-in or user defined. The general purpose of @SyntacticTokens is to implement syntactic constructs. 
+
+The @Token @ProgramLeftParen is a @SyntacticToken. The @Token @ProgramLeftParen means to @Evaluate all subsequent @Tokens in the context in which @ProgramLeftParen was @Evaluated until the corresponding @Token @ProgramRightParen occurs. In effect, this is to say all sequences of @Tokens which are parenthesized are treated as a single @Token. The @FngiProgram @ProgramParenExample means
+
+[+]
+* The @Token @ProgramOne is @Evaluated. The @Number 1 is @Pushed to the @WorkingStack.
+* The @Token @ProgramLeftParen is @Evaluated (@ProgramAdd is defered). All @Tokens subsequent @Tokens until the corresponding @Token @ProgramRightParen are @Evaluated.
+* The @Token @ProgramTwo is @Evaluated. The @Number 2 is @Pushed to the @WorkingStack.
+* The @Token @ProgramFour is @Evaluated (@ProgramMul is defered). The @Number 4 is @Pushed to the @WorkingStack.
+* The @Token @ProgramMul is @Evaluated. The @Number 8 is on the @WorkingStack.
+* The @Token @ProgramRightParen occurs. We return to the context in which @ProgramLeftParen was @Evaluated.
+* The @Token @ProgramAdd is @Evaluated. The @Number 9 is on the @WorkingStack.
+[/]
+
+The @ProgramImm @Token is a @SyntacticToken. The @ProgramImm @Token @Means to @Evaluate the next @Token as if it were @Immediate. The @FngiProgram @ProgramTwoImmThreeFour @Means
+
+[+]
+* The @Token @ProgramTwo is @Evaluated. It is @Delayed, so it is added to the @GlobalDelayQueue.
+* The @Token @ProgramImm is @Evaluated. It is @Immediate, so it is @Executed. 
+* The @Token @ProgramThree is @Evaluated as if it were @Immediate. It is @Executed, and the @Number 3 is pushed to the @WorkingStack.
+* The @Token @ProgramFour is @Evaluated. It is @Delayed, so it is added to the @GlobalDelayQueue.
+* The @Evaluation of the @FngiProgram is complete. The @GlobalDelayQueue is @Executed.
+* The token @ProgramTwo is the first @Token that was added to the @GlobalDelayQueue. It is @Executed. The @Number 2 is pushed to the @WorkingStack.
+* The token @ProgramFour is the next @Token that was added to the @GlobalDelayQueue. It is @Executed. The @Number 4 is pushed to the @WorkingStack.
+* @Execution of the @GlobalDelayQueue is complete.
+[/]
+
+The @Meaning of @FngiProgram @ProgramTwoImmThreeFour is, in summary,
+
+[+]
+* @PushCap the @Number 3 to the @WorkingStack.
+* @PushCap the @Number 2 to the @WorkingStack.
+* @PushCap the @Number 4 to the @WorkingStack.
+[/]
 
 [!]Explain [c]()[c], [c]+(1 2)[c] and [c]1 2 +()[c] in this section. Correct grammar and spelling mistakes using automated checker.[/]
 
@@ -197,12 +230,13 @@ For example, consider the @FngiProgram @ProgramParenExample. The @Token @Program
 [t set=WorkingStack]		working stack			[/]
 [t set=Push]			push				[/]
 [t set=PushCap]			Push				[/]
+[t set=Pushed]			pushed				[/]
 [t set=Pull]			pull				[/]
 [t set=Number]			number				[/]
 [t set=Numbers]			numbers				[/]
-[t set=DelayQueuesCap]		Execution queues		[/]
-[t set=DelayQueue]		execution queue			[/]
-[t set=GlobalDelayQueue]	global execution queue		[/]
+[t set=DelayQueuesCap]		Execution store			[/]
+[t set=DelayQueue]		execution store			[/]
+[t set=GlobalDelayQueue]	global execution store		[/]
 
 [!] spor [/]
 
@@ -238,6 +272,6 @@ For example, consider the @FngiProgram @ProgramParenExample. The @Token @Program
 [t set=ProgramThree]		[c]3[c]				[/]
 [t set=ProgramFour]		[c]4[c]				[/]
 [t set=ProgramFive]		[c]5[c]				[/]
-[t set=ProgramParenExample]	[c]5 imm#(1 + 2)[c]		[/]
+[t set=ProgramParenExample]	[c]1 + (2 * 4)[c]		[/]
 [t set=ProgramLeftParen]	[c]([c]				[/]
 [t set=ProgramRightParen]	[c])[c]				[/]
