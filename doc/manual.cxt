@@ -21,7 +21,6 @@ The @FngiLanguage is an imperative, stack-based programming language. The purpos
 2. The @Meaning of a @FngiProgram is the effect of @Executing the @FngiProgram.
 3. To @Execute a @FngiProgram is to @Evaluate the @FngiProgram, then @Execute the @GlobalDelayQueue.
 4. To @Evaluate a @FngiProgram is @USUALLY to @Evaluate its @Tokens in order.
-5. The @Evaluation of a @Token occurs in a @Context.
 [/]
 
 [h2]4. @DelayQueuesCap[/]
@@ -33,8 +32,9 @@ The @FngiLanguage is an imperative, stack-based programming language. The purpos
 [h2]5. @TokensCap[/]
 [+]
 1. To @Evaluate a @Token is @USUALLY to add it to an @DelayQueue. That @DelayQueue is @USUALLY the @GlobalDelayQueue.
-2. To @Execute a @Token is to do what the @Token @Means.
-3. A @Token is exactly one kind of @Token.
+2. The @Evaluation of a @Token occurs in a @Context.
+3. To @Execute a @Token is to do what the @Token @Means.
+4. A @Token is exactly one kind of @Token.
 
 [!]3. @WhiteSpaceCap is @SOMETIMES used to separate @Tokens.[/]
 [!]6. @TokensCap @NEVER contain @WhiteSpace.[/]
