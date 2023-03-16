@@ -68,7 +68,7 @@ The @Token @ProgramAdd is a @FunctionToken. The @Token @ProgramAdd @Means @Pull 
 
 [+]
 1. @PushCap the @Number 1 to the @WorkingStack.
-2. @PushCap the @Number 2 to the @WorkingStack (the @Evaluation of @ProgramAdd was @Defered).
+2. @PushCap the @Number 2 to the @WorkingStack (@ProgramAdd is @Defered).
 3. Execute @ProgramAdd. Now, the @Number 3 is on the @WorkingStack
 [/]
 
@@ -76,9 +76,9 @@ The token @ProgramMul is a @FunctionToken. The @Token @ProgramMul @Means @Pull t
 
 [+]
 1. @PushCap the @Number 1 to the @WorkingStack.
-2. @PushCap the @Number 2 to the @WorkingStack (the @Evaluation of @ProgramAdd was @Defered).
+2. @PushCap the @Number 2 to the @WorkingStack (@ProgramAdd is @Defered).
 3. Execute @ProgramAdd. Now, the @Number 3 is on the @WorkingStack.
-4. @PushCap the @Number 4 to the @WorkingStack (the @Evaluation of @ProgramMul was @Defered).
+4. @PushCap the @Number 4 to the @WorkingStack (@ProgramMul is @Defered).
 5. Execute @ProgramMul. Now, the @Number 12 on the @WorkingStack.
 [/]
 
@@ -87,7 +87,7 @@ When @FunctionTokens are @Defered @Sequentially, they are @Evaluated in the orde
 [+]
 1. @PushCap the @Number 1 to the @WorkingStack.
 2. @PushCap the @Number 2 to the @WorkingStack.
-3. @PushCap the @Number 4 to the @WorkingStack (the @Evaluation of @ProgramAdd was @Defered, then the @Evaluation of @ProgramMul was @Defered).
+3. @PushCap the @Number 4 to the @WorkingStack (@ProgramAdd is @Defered, then @ProgramMul is @Defered).
 4. Execute @ProgramMul. Now, the @Number 8 is on the @WorkingStack.
 5. Execute @ProgramAdd. Now, the @Number 9 is on the @WorkingStack.
 [/]
