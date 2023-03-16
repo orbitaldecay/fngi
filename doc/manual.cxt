@@ -1,71 +1,69 @@
-[h1]The fngi programmer's manual[/]
+[h2]The fngi programmer's manual[/]
 
-[h2]1. Document conventions[/]
+[h3]1. Document conventions[/]
 [+]
 1. Text written in the @FngiLanguage is [c]monospaced[c].
 2. The word @ALWAYS implies the sentence is always true; if the sentence is ever false then we have made a mistake.
-3. The word @USUALLY implies the sentence is assumed to be true. We will write when it is false.
-4. The word @SOMETIMES implies the sentence is assumed to be false. We will write when it is true.
+3. The word @USUALLY implies the sentence is assumed to be true. We write when it is false.
+4. The word @SOMETIMES implies the sentence is assumed to be false. We write when it is true.
 5. The word @NEVER implies sentence is never true. If the sentence is ever true then we have made a mistake.
 [/]
 
 [!]Text in developer comments is for authors.[/] 
 
-[h2]2. Introduction[/]
+[h3]2. Introduction[/]
 
 The @FngiLanguage is an imperative, stack-based programming language. The purpose of this manual is to explain the @Meaning of @FngiPrograms.
 
 [h3]3. @FngiProgramsCap[/]
-
 [+]
 1. A @FngiProgram is a @Sequence of @Tokens.
 2. The @Meaning of a @FngiProgram is the effect of @Executing the @FngiProgram.
-3. To @Execute a @FngiProgram is to @Parse all @Tokens in the @FngiProgram in order.
+3. To @Execute a @FngiProgram is to @Evaluate the @FngiProgram, then @Execute the @GlobalDelayQueue.
+4. To @Evaluate a @FngiProgram is @USUALLY to @Evaluate its @Tokens in order.
 [/]
 
-[h3]4. @TokensCap[/]
-
+[h3]4. @DelayQueuesCap[/]
 [+]
-1. To @Parse a @Token is to determine when it should be @Evaluated.
-2. @TokensCap are @USUALLY @Evaluated when they are @Parsed.
-3. To @Evaluate a @Token is to determine when it should be @Executed.
-4. @TokensCap are @USUALLY @Executed either when they are @Evaluated, or after all @Tokens in the @FngiProgram have been @Evaluated.
-5. To @Execute a @Token is to do what the @Token @Means.
-6. @WhiteSpaceCap is @SOMETIMES used to separate @Tokens.
+1. The @GlobalDelayQueue is an @DelayQueue.
+2. To @Execute an @DelayQueue is to @Execute the @Tokens which have been added to it in the order in which they were added.
+[/]
 
+[h3]5. @TokensCap[/]
+[+]
+1. A @Token is a @String. [!]Elaborate on this[/]
+2. To @Evaluate a @Token is @USUALLY to add it to an @DelayQueue. That @DelayQueue is @USUALLY the @GlobalDelayQueue.
+3. To @Execute a @Token is to do what the @Token @Means.
+
+[!]3. @WhiteSpaceCap is @SOMETIMES used to separate @Tokens.[/]
 [!]6. @TokensCap @NEVER contain @WhiteSpace.[/]
 [!]7. @WhiteSpaceCap @NEVER has @Meaning.[/]
 [/]
 
-[h3]5. @ValueTokensCap[/]
-
+[h3]6. @ValueTokensCap[/]
 [+]
-1. A @ValueToken is a kind of @Token.
+1. A @ValueToken is a @Token.
 2. @ValueTokensCap represent @Numbers.
 3. The @Meaning of a @ValueToken is to @Push the @Number which is represented by the @ValueToken to the @WorkingStack.
-4. @ValueTokensCap must be separated by @WhiteSpace when they occur @Sequentially in a @FngiProgram. 
-
+[!]4. @ValueTokensCap must be separated by @WhiteSpace when they occur @Sequentially in a @FngiProgram.[/]
 [/]
 
-[h3]6. @ValueTokenCap examples[/]
-
+[h3]7. @ValueTokenCap examples[/]
 [+]
 1. The @Token @ProgramOne is a @ValueToken. It @Means @Push the @Number 1 to the @WorkingStack.
-2. The @Token @ProgramTwelve is a@ValueToken. It @Means @Push the @Number 12 to the @WorkingStack.
+2. The @Token @ProgramTwelve is a @ValueToken. It @Means @Push the @Number 12 to the @WorkingStack.
 3. The @Token @ProgramHex is a @ValueToken. It @Means @Push the @Number 16 to the @WorkingStack.
-4. The @FngiProgram @ProgramOneTwo is made of the @ValueTokens @ProgramOne and @ProgramTwo. These @ValueTokens are separated by @WhiteSpace. The @FngiProgram @ProgramOneTwo @Means @Push the @Number 1 to the @WorkingStack, then @Push the @Number 2 to the @WorkingStack. 
+4. The @FngiProgram @ProgramOneTwo is made of the @ValueTokens @ProgramOne and @ProgramTwo. The @FngiProgram @ProgramOneTwo @Means @Push the @Number 1 to the @WorkingStack, then @Push the @Number 2 to the @WorkingStack. 
 [/]
 
-[h3]7. @FunctionTokensCap[/]
-
+[h3]8. @FunctionTokensCap[/]
 [+]
-1. A @FunctionToken is a kind of @Token.
-2. @DeferedCap @Evaluation is to @Evaluate after the next @Token in the @FngiProgram has been @Evaluated. 
-3. @FunctionTokensCap are @NEVER @Evaluated when they are @Parsed.
-4. @FunctionTokensCap @ALWAYS use @Defered @Evaluation.
+1. A @FunctionToken is a @Token.
+2. @DeferedCap @Evaluation is to @Evaluate a @Token after the @Subsequent @Token in its @FngiProgram has been @Evaluated.
+3. The @Evaluation of @FunctionTokens is @ALWAYS @Defered.
 [/]
 
-[h3]8. @FunctionTokenCap examples[/]
+[h3]9. @FunctionTokenCap examples[/]
 
 The @Token @ProgramAdd is a @FunctionToken. The @Token @ProgramAdd @Means @Pull two @Numbers from the @WorkingStack, then @Push their sum to the @WorkingStack. The @FngiProgram @ProgramOnePlusTwo @Means
 
@@ -95,17 +93,14 @@ When @FunctionTokens are @Defered @Sequentially, they are @Evaluated in the orde
 5. Execute @ProgramAdd. Now, the @Number 9 is on the @WorkingStack.
 [/]
 
-[h3]9. @ImmediateCap and @Delayed @Execution[/]
+[!]Immediate and delayed definitions do not belong here. Find a way to explain syntactic tokens without resorting to these definitions.[/]
+[h3]10. @ImmediateCap and @Delayed @Execution[/]
 
-When a @Token is @Evaluated, that @Token is either @Executed or added to a @DelayQueue for later @Execution. We call this @Immediate and @Delayed @Execution, respectively.
-
-When a @Token is @Executed @Immediately, @Execution occurs before the next @Token is @Parsed.
-
-When a @Token undergoes @Delayed @Execution, that @Token is added to a @DelayQueue. The @GlobalDelayQueue is the @DelayQueue to which @Tokens are @USUALLY added. To @Execute a @DelayQueue is to @Execute the @Tokens in that @DelayQueue in the order in which they were added. The @GlobalDelayQueue is @Executed after all @Tokens have been @Evaluated.
+If a @Token is @Executed when it is @Evaluated instead of being added to a @DelayQueue, we say the @Token is @Executed @Immediately. Otherwise, we say the @Execution of the @Token was @Delayed. The @Execution of @Tokens is @USUALLY @Delayed.
 
 [!]In the standard implementation, the @DelayQueue is a @Spor buffer. @SporCap is the internal bytecode of the @FngiLanguage. In other implementations, the @DelayQueue could be a native code buffer, or even a literal queue of @Fngi tokens. This is all implementation specific. For the purposes of documentation, we've chosen to simply call it a @DelayQueue.[/]
 
-When @Tokens are @Evaluated, @Execution is @USUALLY delayed. A deeper level of detail to our explanation of the behavior of the @FngiProgram @ProgramOneTwo would be:
+A deeper level of detail to our explanation of the behavior of the @FngiProgram @ProgramOneTwo would be:
 
 [+]
 1. The @Token @ProgramOne is @Evaluated. It undergoes @Delayed @Execution and is added to the @GlobalDelayQueue.
@@ -118,13 +113,13 @@ To @Execute a @Token @Immediately, the @ProgramImm @Token is prepended to that @
 
 [+]
 1. The @Token @ProgramTwo is @Evaluated. It undergoes @Delayed @Execution and is added to the @GlobalDelayQueue.
-2. The @Token @ProgramImm is @Executed @Immediately. It causes the @Token @ProgramThree to be @Executed @Immediately. Prior to @Parsing the @Token @ProgramFour, the @Number 3 is pushed to the @WorkingStack.
+2. The @Token @ProgramImm is @Executed @Immediately. It causes the @Token @ProgramThree to be @Executed @Immediately. The @Number 3 is pushed to the @WorkingStack.
 3. The @Token @ProgramFour is @Evaluated. It undergoes @Delayed @Execution and is added to the @GlobalDelayQueue.
 4. The @Token @ProgramTwo is dequeued from the @GlobalDelayQueue and @Executed. The @Number 2 is pushed to the @WorkingStack.
 5. The @Token @ProgramFour is dequeued from the @GlobalDelayQueue and @Executed. The @Number 4 is pushed to the @WorkingStack.
 [/]
 
-[h3]10. @SyntacticTokensCap[/]
+[h3]11. @SyntacticTokensCap[/]
 
 A @SyntacticToken is a kind of @Token. @SyntacticTokensCap are @ALWAYS @Executed @Immediately. @SyntacticTokensCap can be built-in or user defined. The general purpose of @SyntacticTokens is to implement syntactic constructs. We have already seen an example of one @SyntacticToken: the @ProgramImm @Token. The @ProgramImm @Token triggers @Immediate @Execution of the @Token which follows it.
 
@@ -207,8 +202,9 @@ For example, consider the @FngiProgram @ProgramParenExample. The @Token @Program
 [t set=Pull]			pull				[/]
 [t set=Number]			number				[/]
 [t set=Numbers]			numbers				[/]
-[t set=DelayQueue]		delay queue			[/]
-[t set=GlobalDelayQueue]	global delay queue		[/]
+[t set=DelayQueuesCap]		Execution queues		[/]
+[t set=DelayQueue]		execution queue			[/]
+[t set=GlobalDelayQueue]	global execution queue		[/]
 
 [!] spor [/]
 
@@ -218,12 +214,13 @@ For example, consider the @FngiProgram @ProgramParenExample. The @Token @Program
 [!] misc [/]
 
 [t set=Sequence]		sequence			[/]
-[t set=Sequentially]		seqentially			[/]
+[t set=Sequentially]		sequentially			[/]
 [t set=Subsequent]		subsequent			[/]
 [t set=WhiteSpace]		white space			[/]
 [t set=WhiteSpaceCap]		White space			[/]
 [t set=Means]			means				[/]
 [t set=Meaning]			meaning				[/]
+[t set=String]			string				[/]
 
 [!] example code ---------------------------------------------	[/]
 
