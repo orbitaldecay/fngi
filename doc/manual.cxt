@@ -28,7 +28,7 @@ The @FngiLanguage @IsAn imperative, stack-based programming language. This manua
 
 [h2]@DelayQueuesCap[/]
 [+]
-1. The @GlobalDelayQueue @IsA @DelayQueue.
+1. The @GlobalDelayQueue @IsAn @DelayQueue.
 2. To @Execute an @DelayQueue @Is to @Execute the @Tokens which were added to it in the order in which they were added.
 [/]
 
@@ -61,7 +61,7 @@ The @FngiLanguage @IsAn imperative, stack-based programming language. This manua
 
 [h2]7. @FunctionTokensCap[/]
 [+]
-1. @Tokens are @USUALLY @Evaluated in order.
+1. @TokensCap are @USUALLY @Evaluated in order.
 2. A @Defered @Token @IsA @Token.
 3. A @Token @IsA @Defered @Token @Iff that @Token is @Evaluated after the @Token that follows it is @Evaluated, but not before.
 4. A @FunctionToken @IsA @Defered @Token.
