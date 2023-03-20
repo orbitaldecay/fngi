@@ -8,8 +8,8 @@
 4. The word @SOMETIMES implies the sentence is generally false. Exceptions are explicitly stated.
 5. The word @NEVER implies the sentence is false without exception.
 6. The word @Is (@Are) implies that two phrases are equivalent.
-7. The word @IsA (@IsAn) implies the first thing is an instance of the second thing, but the second thing is not neccesarily an instance of the first.
-8. The word @HasA (@HasAn) implies the first thing is a property of the second thing.
+7. The phrase @IsA (@IsAn) implies the first thing is an instance of the second thing, but the second thing is not neccesarily an instance of the first.
+8. The phrase @HasA (@HasAn) implies the first thing is a property of the second thing.
 [/]
 
 [!]Text in developer comments is for authors.[/] 
